@@ -4,6 +4,8 @@
 # Python
 __pycache__/
 *.pyc
+data/agent_state.json
+eval_results/*.checkpoint.json
 
 # OS
 .DS_Store

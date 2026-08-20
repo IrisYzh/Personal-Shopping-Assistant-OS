@@ -1,0 +1,3207 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-20T09:38:45.317035+00:00",
+  "agent_status": "available",
+  "model_access": {
+    "doubao-seed-2-0-lite-260215": "available",
+    "doubao-seed-2-0-pro-260215": "available"
+  },
+  "baseline_summary": {
+    "sample_sizes": {
+      "intent": 25,
+      "product": 33,
+      "reminder": 10,
+      "verifier": 0
+    },
+    "intent_accuracy": 0.52,
+    "explicit_intent_recall": 0.5,
+    "product_recognition_accuracy": 0.7576,
+    "reminder_precision": 1.0,
+    "reminder_recall": 1.0,
+    "disturbance": {
+      "false_auto_save_rate": 0.0,
+      "fuzzy_interest_confirmation_rate": 0.875,
+      "unnecessary_prompt_rate": 0.6
+    },
+    "verifier_bad_proposal_block_rate": null,
+    "verifier_false_block_rate": null,
+    "average_tool_calls": null,
+    "average_tokens_per_task": null,
+    "invalid_duplicate_investigation_rate": null,
+    "stop_condition_rate": 1.0
+  },
+  "guardrail_v2_summary": {
+    "sample_sizes": {
+      "intent": 25,
+      "product": 33,
+      "reminder": 10,
+      "verifier": 0
+    },
+    "intent_accuracy": 1.0,
+    "explicit_intent_recall": 1.0,
+    "product_recognition_accuracy": 0.9091,
+    "reminder_precision": 1.0,
+    "reminder_recall": 1.0,
+    "disturbance": {
+      "false_auto_save_rate": 0.0,
+      "fuzzy_interest_confirmation_rate": 1.0,
+      "unnecessary_prompt_rate": 0.0
+    },
+    "verifier_bad_proposal_block_rate": null,
+    "verifier_false_block_rate": null,
+    "average_tool_calls": null,
+    "average_tokens_per_task": null,
+    "invalid_duplicate_investigation_rate": null,
+    "stop_condition_rate": 1.0
+  },
+  "agent_summary": {
+    "sample_sizes": {
+      "intent": 25,
+      "product": 33,
+      "reminder": 10,
+      "verifier": 8
+    },
+    "intent_accuracy": 0.88,
+    "explicit_intent_recall": 1.0,
+    "product_recognition_accuracy": 1.0,
+    "reminder_precision": 1.0,
+    "reminder_recall": 1.0,
+    "disturbance": {
+      "false_auto_save_rate": 0.0,
+      "fuzzy_interest_confirmation_rate": 1.0,
+      "unnecessary_prompt_rate": 0.0
+    },
+    "verifier_bad_proposal_block_rate": 1.0,
+    "verifier_false_block_rate": 0.0,
+    "average_tool_calls": 1.355,
+    "average_tokens_per_task": 3625.5,
+    "invalid_duplicate_investigation_rate": 0.0194,
+    "stop_condition_rate": 1.0
+  },
+  "badcase_analysis": {
+    "legacy_badcase_count": 10,
+    "root_cause_distribution": {
+      "intent_miss": {
+        "count": 6,
+        "share": 0.6
+      },
+      "entity_extraction": {
+        "count": 4,
+        "share": 0.4
+      }
+    },
+    "cases": [
+      {
+        "id": "i01",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i02",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i03",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i04",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i05",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i06",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p26",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p27",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p28",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p29",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      }
+    ],
+    "closure_rate": 1.0
+  },
+  "baseline_results": {
+    "intent": [
+      {
+        "id": "i01",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i02",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i03",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i04",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i05",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i06",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i07",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i08",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i09",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i10",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i11",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i12",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i13",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i14",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i15",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i16",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ignore",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i17",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i18",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i19",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i20",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i21",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i22",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i23",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i24",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i25",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "product": [
+      {
+        "id": "p01",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p02",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p03",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p04",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p05",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p06",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p07",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p08",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p09",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p10",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p11",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p12",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p13",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p14",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p15",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p16",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p17",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p18",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p19",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p20",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p21",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p22",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p23",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p24",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p25",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p26",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p27",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p28",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p29",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p30",
+        "source": "meta",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p31",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p32",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p33",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "reminder": [
+      {
+        "id": "r01",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r02",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r03",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r04",
+        "expected": [
+          "restock"
+        ],
+        "actual": [
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r05",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r06",
+        "expected": [
+          "price_drop",
+          "restock"
+        ],
+        "actual": [
+          "price_drop",
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r07",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r08",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r09",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r10",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      }
+    ]
+  },
+  "guardrail_v2_results": {
+    "intent": [
+      {
+        "id": "i01",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i02",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i03",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i04",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i05",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i06",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i07",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i08",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i09",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i10",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i11",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i12",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i13",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i14",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i15",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i16",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i17",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i18",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i19",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i20",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i21",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i22",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i23",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i24",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i25",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      }
+    ],
+    "product": [
+      {
+        "id": "p01",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p02",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p03",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p04",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p05",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p06",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p07",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p08",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p09",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p10",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p11",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p12",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p13",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p14",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p15",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p16",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p17",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p18",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p19",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p20",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p21",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p22",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p23",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p24",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p25",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p26",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p27",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p28",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p29",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p30",
+        "source": "meta",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p31",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p32",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p33",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "reminder": [
+      {
+        "id": "r01",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r02",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r03",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r04",
+        "expected": [
+          "restock"
+        ],
+        "actual": [
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r05",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r06",
+        "expected": [
+          "price_drop",
+          "restock"
+        ],
+        "actual": [
+          "price_drop",
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r07",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r08",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r09",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r10",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      }
+    ]
+  },
+  "agent_results": {
+    "intent": [
+      {
+        "id": "i01",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.99,
+          "reasons": [
+            "User explicitly requested notification when the product price drops to 500 CNY, which aligns with the explicit_purchase intent classification",
+            "Trusted current-page product context from content script confirms all product details in the proposal are accurate",
+            "Hard constraints check passed with no failures",
+            "All required fields are present and fully supported by collected evidence with no conflicts"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3780,
+          "output_tokens": 2841,
+          "total_tokens": 6621
+        }
+      },
+      {
+        "id": "i02",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.95,
+          "reasons": [
+            "User explicitly requested promotion reminder for the current page product, which qualifies as valid explicit purchase intent per policy",
+            "All product information fields are complete and verified via trusted content script provided context",
+            "Null target_price is permitted as it defaults to 10% drop from baseline price per deterministic policy, no missing required fields",
+            "Hard constraints check passed with no failures"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3541,
+          "output_tokens": 2599,
+          "total_tokens": 6140
+        }
+      },
+      {
+        "id": "i03",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.99,
+          "reasons": [
+            "User explicitly requested price monitoring for price below 800 CNY, which meets the explicit_purchase intent requirement",
+            "Provided product context from the current page is complete, consistent with the proposal product details, and has high confidence of 0.98",
+            "Hard constraints check passed with no failures",
+            "All required fields including target price, product info, and notification preference are fully present and consistent across user input, evidence board and proposal"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 5228,
+          "output_tokens": 4483,
+          "total_tokens": 9711
+        }
+      },
+      {
+        "id": "i04",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.95,
+          "reasons": [
+            "用户明确表示要等待商品打折后再下单，符合explicit_purchase的判定标准",
+            "商品信息由受信任的当前页面上下文提供，完整且可信度高",
+            "目标价格为空时按照规则默认使用当前价格下降10%作为监测阈值，无必填字段缺失",
+            "硬约束检查全部通过"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3513,
+          "output_tokens": 3148,
+          "total_tokens": 6661
+        }
+      },
+      {
+        "id": "i05",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "ask_user",
+          "confidence": 0.2,
+          "reasons": [
+            "Hard constraint check failed: product confidence (0.6) is below the required threshold of 0.75",
+            "User intent and product entity information require confirmation"
+          ],
+          "missing_fields": [
+            "intent_confirmation",
+            "complete_product_entity_validation"
+          ],
+          "recommended_question": "请确认您是否想要将商品「评测商品」（售价799元，链接：https://shop.example.com/eval-product）添加到您的想买清单中？"
+        },
+        "runtime": {
+          "model_responses": 6,
+          "tool_calls": 5,
+          "duplicate_tool_calls": 2,
+          "input_tokens": 9409,
+          "output_tokens": 5048,
+          "total_tokens": 14457
+        }
+      },
+      {
+        "id": "i06",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": "intent_miss",
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.95,
+          "reasons": [
+            "User explicitly requested price monitoring for the current page product, which qualifies as explicit_purchase per policy definition (price-monitoring commands count as explicit_purchase even without literal 'buy' wording)",
+            "Complete high-confidence product information is provided by trusted content script provided_product_context",
+            "Null target_price is allowed per deterministic policy, which automatically assigns a 10% drop from the 799 CNY baseline price, so no required fields are missing",
+            "Hard constraints check passed with no failures"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3639,
+          "output_tokens": 2319,
+          "total_tokens": 5958
+        }
+      },
+      {
+        "id": "i07",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": {
+          "verdict": "ask_user",
+          "confidence": 0.9,
+          "reasons": [
+            "The user explicitly requested a restock notification for size M of the product, but the size specification is not included in the structured product fields of the proposal, which may result in alerts triggering for incorrect product variants."
+          ],
+          "missing_fields": [
+            "product.size"
+          ],
+          "recommended_question": "Do you confirm that you want to set a restock alert for size M of the product '评测商品'?"
+        },
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4947,
+          "output_tokens": 6529,
+          "total_tokens": 11476
+        }
+      },
+      {
+        "id": "i08",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "The user explicitly requested price monitoring for the current product with a target price of 650 CNY, which matches the explicit_purchase intent definition",
+            "The provided product context from the trusted content script is complete, consistent with the proposal details, and has high extraction confidence",
+            "All required fields for the save_item action are present with no conflicts",
+            "Hard constraint checks passed with no failures"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4063,
+          "output_tokens": 2875,
+          "total_tokens": 6938
+        }
+      },
+      {
+        "id": "i09",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "Raw user expression explicitly requests adding the current product to wishlist, intent is unambiguous",
+            "Provided product context from trusted content script matches all product fields in the proposal, no conflicting information",
+            "Hard constraints check passed with zero failures",
+            "All required fields for the save_item action are present, no missing critical information"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3661,
+          "output_tokens": 2691,
+          "total_tokens": 6352
+        }
+      },
+      {
+        "id": "i10",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "degraded": false,
+        "legacy": null,
+        "verification": {
+          "verdict": "ask_user",
+          "confidence": 0.0,
+          "reasons": [
+            "verifier_unavailable:RuntimeError"
+          ],
+          "missing_fields": [],
+          "recommended_question": "独立校验暂时不可用，要确认加入监控清单吗？"
+        },
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 971,
+          "output_tokens": 1424,
+          "total_tokens": 2395
+        }
+      },
+      {
+        "id": "i11",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "User explicitly requested restock reminder which qualifies as explicit_purchase intent per rule",
+            "Trusted provided_product_context from content script confirms all product details are complete and correctly associated with the user's command",
+            "Hard constraints check passed with no failures",
+            "Null target_price is allowed per default 10% price drop monitoring policy, no missing required fields",
+            "Current in-stock status of the product is not a barrier to registering a restock alert per policy"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3579,
+          "output_tokens": 3044,
+          "total_tokens": 6623
+        }
+      },
+      {
+        "id": "i12",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.99,
+          "reasons": [
+            "Raw user expression explicitly requests notification when product price drops below 700 CNY, which fits the explicit_purchase intent definition (includes price-monitoring commands)",
+            "Provided product context from the content script confirms all product fields are valid and match the current page product the user is referring to",
+            "Hard constraints check passed with no failures",
+            "All required fields are fully populated with no conflicting information between user intent, evidence, and proposal"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3465,
+          "output_tokens": 2258,
+          "total_tokens": 5723
+        }
+      },
+      {
+        "id": "i13",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 971,
+          "output_tokens": 847,
+          "total_tokens": 1818
+        }
+      },
+      {
+        "id": "i14",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 970,
+          "output_tokens": 881,
+          "total_tokens": 1851
+        }
+      },
+      {
+        "id": "i15",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1060,
+          "output_tokens": 874,
+          "total_tokens": 1934
+        }
+      },
+      {
+        "id": "i16",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 971,
+          "output_tokens": 855,
+          "total_tokens": 1826
+        }
+      },
+      {
+        "id": "i17",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1062,
+          "output_tokens": 662,
+          "total_tokens": 1724
+        }
+      },
+      {
+        "id": "i18",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1059,
+          "output_tokens": 1493,
+          "total_tokens": 2552
+        }
+      },
+      {
+        "id": "i19",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1060,
+          "output_tokens": 788,
+          "total_tokens": 1848
+        }
+      },
+      {
+        "id": "i20",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1058,
+          "output_tokens": 785,
+          "total_tokens": 1843
+        }
+      },
+      {
+        "id": "i21",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 971,
+          "output_tokens": 962,
+          "total_tokens": 1933
+        }
+      },
+      {
+        "id": "i22",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1058,
+          "output_tokens": 1344,
+          "total_tokens": 2402
+        }
+      },
+      {
+        "id": "i23",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1062,
+          "output_tokens": 1022,
+          "total_tokens": 2084
+        }
+      },
+      {
+        "id": "i24",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1059,
+          "output_tokens": 971,
+          "total_tokens": 2030
+        }
+      },
+      {
+        "id": "i25",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "degraded_error": null,
+        "verification": null,
+        "runtime": {
+          "model_responses": 1,
+          "tool_calls": 0,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 975,
+          "output_tokens": 942,
+          "total_tokens": 1917
+        }
+      }
+    ],
+    "product": [
+      {
+        "id": "p01",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "羊毛短外套",
+          "url": "https://shop.example.com/item-01",
+          "price": 199.0,
+          "currency": "CNY",
+          "availability": "out_of_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1976,
+          "output_tokens": 275,
+          "total_tokens": 2251
+        }
+      },
+      {
+        "id": "p02",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "复古跑鞋",
+          "url": "https://shop.example.com/item-02",
+          "price": 222.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2017,
+          "output_tokens": 350,
+          "total_tokens": 2367
+        }
+      },
+      {
+        "id": "p03",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "真丝衬衫",
+          "url": "https://shop.example.com/item-03",
+          "price": 245.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1930,
+          "output_tokens": 357,
+          "total_tokens": 2287
+        }
+      },
+      {
+        "id": "p04",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "托特包",
+          "url": "https://shop.example.com/item-04",
+          "price": 268.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2195,
+          "output_tokens": 453,
+          "total_tokens": 2648
+        }
+      },
+      {
+        "id": "p05",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "修护精华",
+          "url": "https://shop.example.com/item-05",
+          "price": 291.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1986,
+          "output_tokens": 284,
+          "total_tokens": 2270
+        }
+      },
+      {
+        "id": "p06",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "瑜伽长裤",
+          "url": "https://shop.example.com/item-06",
+          "price": 314.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1905,
+          "output_tokens": 306,
+          "total_tokens": 2211
+        }
+      },
+      {
+        "id": "p07",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "针织开衫",
+          "url": "https://shop.example.com/item-07",
+          "price": 337.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1989,
+          "output_tokens": 327,
+          "total_tokens": 2316
+        }
+      },
+      {
+        "id": "p08",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "防晒乳",
+          "url": "https://shop.example.com/item-08",
+          "price": 360.0,
+          "currency": "CNY",
+          "availability": "out_of_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1917,
+          "output_tokens": 344,
+          "total_tokens": 2261
+        }
+      },
+      {
+        "id": "p09",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "德训鞋",
+          "url": "https://shop.example.com/item-09",
+          "price": 383.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2011,
+          "output_tokens": 349,
+          "total_tokens": 2360
+        }
+      },
+      {
+        "id": "p10",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "直筒牛仔裤",
+          "url": "https://shop.example.com/item-10",
+          "price": 406.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1970,
+          "output_tokens": 280,
+          "total_tokens": 2250
+        }
+      },
+      {
+        "id": "p11",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "羊绒围巾",
+          "url": "https://shop.example.com/item-11",
+          "price": 429.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2097,
+          "output_tokens": 342,
+          "total_tokens": 2439
+        }
+      },
+      {
+        "id": "p12",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "香氛蜡烛",
+          "url": "https://shop.example.com/item-12",
+          "price": 452.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2089,
+          "output_tokens": 296,
+          "total_tokens": 2385
+        }
+      },
+      {
+        "id": "p13",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "连帽卫衣",
+          "url": "https://shop.example.com/item-13",
+          "price": 475.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1987,
+          "output_tokens": 322,
+          "total_tokens": 2309
+        }
+      },
+      {
+        "id": "p14",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "通勤风衣",
+          "url": "https://shop.example.com/item-14",
+          "price": 498.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2091,
+          "output_tokens": 345,
+          "total_tokens": 2436
+        }
+      },
+      {
+        "id": "p15",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "保湿面霜",
+          "url": "https://shop.example.com/item-15",
+          "price": 521.0,
+          "currency": "CNY",
+          "availability": "out_of_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1974,
+          "output_tokens": 287,
+          "total_tokens": 2261
+        }
+      },
+      {
+        "id": "p16",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "运动内衣",
+          "url": "https://shop.example.com/item-16",
+          "price": 544.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1903,
+          "output_tokens": 334,
+          "total_tokens": 2237
+        }
+      },
+      {
+        "id": "p17",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "迷你斜挎包",
+          "url": "https://shop.example.com/item-17",
+          "price": 567.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2028,
+          "output_tokens": 367,
+          "total_tokens": 2395
+        }
+      },
+      {
+        "id": "p18",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "百褶半裙",
+          "url": "https://shop.example.com/item-18",
+          "price": 590.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2006,
+          "output_tokens": 347,
+          "total_tokens": 2353
+        }
+      },
+      {
+        "id": "p19",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "乐福鞋",
+          "url": "https://shop.example.com/item-19",
+          "price": 613.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2007,
+          "output_tokens": 348,
+          "total_tokens": 2355
+        }
+      },
+      {
+        "id": "p20",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "羽绒马甲",
+          "url": "https://shop.example.com/item-20",
+          "price": 636.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2071,
+          "output_tokens": 419,
+          "total_tokens": 2490
+        }
+      },
+      {
+        "id": "p21",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "洁面慕斯",
+          "url": "https://shop.example.com/item-21",
+          "price": 659.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2065,
+          "output_tokens": 303,
+          "total_tokens": 2368
+        }
+      },
+      {
+        "id": "p22",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "棒球帽",
+          "url": "https://shop.example.com/item-22",
+          "price": 682.0,
+          "currency": "CNY",
+          "availability": "out_of_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2088,
+          "output_tokens": 415,
+          "total_tokens": 2503
+        }
+      },
+      {
+        "id": "p23",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "纯棉T恤",
+          "url": "https://shop.example.com/item-23",
+          "price": 705.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2075,
+          "output_tokens": 397,
+          "total_tokens": 2472
+        }
+      },
+      {
+        "id": "p24",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "轻薄夹克",
+          "url": "https://shop.example.com/item-24",
+          "price": 728.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1981,
+          "output_tokens": 291,
+          "total_tokens": 2272
+        }
+      },
+      {
+        "id": "p25",
+        "source": "jsonld",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "修身西裤",
+          "url": "https://shop.example.com/item-25",
+          "price": 751.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 1.0,
+          "extraction_method": "jsonld",
+          "evidence": [
+            "schema.org/Product",
+            "schema.org/Product.offers"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2039,
+          "output_tokens": 382,
+          "total_tokens": 2421
+        }
+      },
+      {
+        "id": "p26",
+        "source": "meta",
+        "correct": true,
+        "degraded": false,
+        "legacy": "entity_extraction",
+        "actual": {
+          "name": "方头玛丽珍",
+          "url": "https://shop.example.com/item-26",
+          "price": 774.0,
+          "currency": "CNY",
+          "availability": "unknown",
+          "confidence": 0.8,
+          "extraction_method": "meta",
+          "evidence": [
+            "og:title",
+            "og:url",
+            "product:price:amount",
+            "product:price:currency"
+          ],
+          "uncertainties": [
+            "No availability information found in structured meta tags"
+          ]
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3182,
+          "output_tokens": 441,
+          "total_tokens": 3623
+        }
+      },
+      {
+        "id": "p27",
+        "source": "meta",
+        "correct": true,
+        "degraded": false,
+        "legacy": "entity_extraction",
+        "actual": {
+          "name": "软皮腋下包",
+          "url": "https://shop.example.com/item-27",
+          "price": 797.0,
+          "currency": "CNY",
+          "availability": "unknown",
+          "confidence": 0.8,
+          "extraction_method": "meta",
+          "evidence": [
+            "og:title",
+            "og:url",
+            "product:price:amount",
+            "product:price:currency"
+          ],
+          "uncertainties": [
+            "No product availability information found in structured meta data"
+          ]
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3064,
+          "output_tokens": 580,
+          "total_tokens": 3644
+        }
+      },
+      {
+        "id": "p28",
+        "source": "meta",
+        "correct": true,
+        "degraded": false,
+        "legacy": "entity_extraction",
+        "actual": {
+          "name": "高腰阔腿裤",
+          "url": "https://shop.example.com/item-28",
+          "price": 820.0,
+          "currency": "CNY",
+          "availability": "unknown",
+          "confidence": 0.8,
+          "extraction_method": "meta",
+          "evidence": [
+            "og:title",
+            "og:url",
+            "product:price:amount",
+            "product:price:currency"
+          ],
+          "uncertainties": [
+            "No availability information found in meta tags"
+          ]
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3163,
+          "output_tokens": 540,
+          "total_tokens": 3703
+        }
+      },
+      {
+        "id": "p29",
+        "source": "meta",
+        "correct": true,
+        "degraded": false,
+        "legacy": "entity_extraction",
+        "actual": {
+          "name": "复古耳钉",
+          "url": "https://shop.example.com/item-29",
+          "price": 843.0,
+          "currency": "CNY",
+          "availability": "unknown",
+          "confidence": 0.7,
+          "extraction_method": "meta",
+          "evidence": [
+            "og:title",
+            "og:url",
+            "product:price:amount",
+            "product:price:currency"
+          ],
+          "uncertainties": [
+            "No availability information found in structured metadata"
+          ]
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3027,
+          "output_tokens": 601,
+          "total_tokens": 3628
+        }
+      },
+      {
+        "id": "p30",
+        "source": "meta",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "羊毛贝雷帽",
+          "url": "https://shop.example.com/item-30",
+          "price": 866.0,
+          "currency": "CNY",
+          "availability": "unknown",
+          "confidence": 0.7,
+          "extraction_method": "meta",
+          "evidence": [
+            "og:title",
+            "og:url",
+            "product:price:amount",
+            "product:price:currency"
+          ],
+          "uncertainties": [
+            "No availability information found in structured metadata"
+          ]
+        },
+        "runtime": {
+          "model_responses": 3,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 3121,
+          "output_tokens": 663,
+          "total_tokens": 3784
+        }
+      },
+      {
+        "id": "p31",
+        "source": "text",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "手工皮带",
+          "url": "https://shop.example.com/item-31",
+          "price": 889.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.95,
+          "extraction_method": "model",
+          "evidence": [
+            "meta tags extracted product name: 手工皮带",
+            "meta tags confirmed product URL: https://shop.example.com/item-31",
+            "visible page content: 手工皮带 到手价 ¥889.0，有货"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4350,
+          "output_tokens": 1041,
+          "total_tokens": 5391
+        }
+      },
+      {
+        "id": "p32",
+        "source": "text",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "条纹背心",
+          "url": "https://shop.example.com/item-32",
+          "price": 912.0,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.9,
+          "extraction_method": "model",
+          "evidence": [
+            "meta tags: product name = 条纹背心, url = https://shop.example.com/item-32, currency = CNY",
+            "visible text: 条纹背心 到手价 ¥912.0，有货"
+          ],
+          "uncertainties": [
+            "price and availability were not available in structured data (JSON-LD/meta tags), extracted from visible text"
+          ]
+        },
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4574,
+          "output_tokens": 1147,
+          "total_tokens": 5721
+        }
+      },
+      {
+        "id": "p33",
+        "source": "text",
+        "correct": true,
+        "degraded": false,
+        "legacy": null,
+        "actual": {
+          "name": "防水徒步鞋",
+          "url": "https://shop.example.com/item-33",
+          "price": 935,
+          "currency": "CNY",
+          "availability": "in_stock",
+          "confidence": 0.9,
+          "extraction_method": "model",
+          "evidence": [
+            "meta tags confirmed product name: 防水徒步鞋, product URL: https://shop.example.com/item-33, currency: CNY",
+            "visible text: 防水徒步鞋 到手价 ¥935.0，有货。商品链接 https://shop.example.com/item-33"
+          ],
+          "uncertainties": []
+        },
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4511,
+          "output_tokens": 940,
+          "total_tokens": 5451
+        }
+      }
+    ],
+    "reminder": [
+      {
+        "id": "r01",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4890,
+          "output_tokens": 1395,
+          "total_tokens": 6285
+        },
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "Evidence board confirms the observed price of 640 CNY matches the product page extraction, meets the 10% drop threshold and is below the 650 CNY target price specified in the alert policy",
+            "All hard constraints passed with no failures",
+            "Observation confidence (0.95) and product confidence (0.98) are both above the required model confidence floor of 0.75",
+            "Alert type 'price_drop' aligns with the triggered policy condition and notify_restock is disabled as configured"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        }
+      },
+      {
+        "id": "r02",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2231,
+          "output_tokens": 598,
+          "total_tokens": 2829
+        },
+        "verification": null
+      },
+      {
+        "id": "r03",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2277,
+          "output_tokens": 716,
+          "total_tokens": 2993
+        },
+        "verification": null
+      },
+      {
+        "id": "r04",
+        "expected": [
+          "restock"
+        ],
+        "actual": [
+          "restock"
+        ],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4765,
+          "output_tokens": 1857,
+          "total_tokens": 6622
+        },
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "Observed product availability changed from out_of_stock to in_stock, which matches page evidence with 0.98 confidence, meeting the policy's required model confidence floor of 0.75",
+            "The item policy explicitly has notify_restock enabled, so the restock alert trigger is valid per pre-defined user preferences",
+            "All hard constraint checks passed with no recorded failures"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        }
+      },
+      {
+        "id": "r05",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2170,
+          "output_tokens": 507,
+          "total_tokens": 2677
+        },
+        "verification": null
+      },
+      {
+        "id": "r06",
+        "expected": [
+          "price_drop",
+          "restock"
+        ],
+        "actual": [
+          "price_drop",
+          "restock"
+        ],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4677,
+          "output_tokens": 1187,
+          "total_tokens": 5864
+        },
+        "verification": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "Product intelligence evidence confirms the observed price (630 CNY) is below the policy target price (650 CNY) and meets the 10% drop requirement relative to the baseline price",
+            "Observed availability is 'in_stock' which satisfies the restock notification condition as previous availability was 'out_of_stock'",
+            "All hard constraints passed without failures",
+            "Observation confidence (0.95) exceeds the policy's required model confidence floor (0.75)"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        }
+      },
+      {
+        "id": "r07",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2115,
+          "output_tokens": 489,
+          "total_tokens": 2604
+        },
+        "verification": null
+      },
+      {
+        "id": "r08",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 4,
+          "tool_calls": 3,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 4802,
+          "output_tokens": 1305,
+          "total_tokens": 6107
+        },
+        "verification": {
+          "verdict": "approve",
+          "confidence": 0.99,
+          "reasons": [
+            "Hard constraint checks passed with no failures",
+            "Observed price (650 CNY) meets the target price specified in the item policy",
+            "Observation details align perfectly with product intelligence evidence from the evidence board, including product identity, price, availability and extraction sources",
+            "All confidence scores (product confidence 0.98, observation confidence 0.95, intent confidence 0.84) meet or exceed the model confidence floor of 0.75 defined in the policy"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        }
+      },
+      {
+        "id": "r09",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2089,
+          "output_tokens": 624,
+          "total_tokens": 2713
+        },
+        "verification": null
+      },
+      {
+        "id": "r10",
+        "expected": [],
+        "actual": [],
+        "correct": true,
+        "degraded": false,
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 1,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2057,
+          "output_tokens": 562,
+          "total_tokens": 2619
+        },
+        "verification": null
+      }
+    ],
+    "verifier": [
+      {
+        "id": "v01",
+        "valid": false,
+        "verdict": "reject",
+        "correct": true,
+        "details": {
+          "verdict": "reject",
+          "confidence": 0.95,
+          "reasons": [
+            "Hard constraint validation failed with failure reason 'intent_not_explicit': the user explicitly requested to be notified when the product price drops to 650 CNY, but the proposed intent is marked as 'fuzzy_interest' which does not match the explicit user request for a price alert."
+          ],
+          "missing_fields": [
+            "intent.kind"
+          ],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2040,
+          "output_tokens": 1492,
+          "total_tokens": 3532
+        }
+      },
+      {
+        "id": "v02",
+        "valid": false,
+        "verdict": "reject",
+        "correct": true,
+        "details": {
+          "verdict": "reject",
+          "confidence": 1.0,
+          "reasons": [
+            "Hard constraint check failed: intent confidence of 0.55 is below the required minimum threshold of 0.80",
+            "Proposed intent type 'explicit_purchase' is inconsistent with the user's raw expression which only requests a price drop reminder, not an explicit purchase"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2047,
+          "output_tokens": 1307,
+          "total_tokens": 3354
+        }
+      },
+      {
+        "id": "v03",
+        "valid": false,
+        "verdict": "ask_user",
+        "correct": true,
+        "details": {
+          "verdict": "ask_user",
+          "confidence": 0.0,
+          "reasons": [
+            "Hard constraint check failed due to incomplete product entity",
+            "Product URL field is null, no valid evidence to confirm the exact product that needs price monitoring"
+          ],
+          "missing_fields": [
+            "product.url"
+          ],
+          "recommended_question": "麻烦您提供一下想要监控的商品的具体链接，这样当它的价格降到650元时我就能及时提醒您了。"
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1925,
+          "output_tokens": 990,
+          "total_tokens": 2915
+        }
+      },
+      {
+        "id": "v04",
+        "valid": false,
+        "verdict": "ask_user",
+        "correct": true,
+        "details": {
+          "verdict": "ask_user",
+          "confidence": 0.9,
+          "reasons": [
+            "The product recognition confidence is only 0.42, which is below the required threshold of 0.75, leading to uncertainty about whether the detected product matches the user's intended target"
+          ],
+          "missing_fields": [
+            "confirmed product identity"
+          ],
+          "recommended_question": "Is the product '评测商品' at https://shop.example.com/eval-product the one you want to receive a reminder for when its price drops to 650 CNY?"
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2118,
+          "output_tokens": 944,
+          "total_tokens": 3062
+        }
+      },
+      {
+        "id": "v05",
+        "valid": false,
+        "verdict": "ask_user",
+        "correct": true,
+        "details": {
+          "verdict": "ask_user",
+          "confidence": 0.5,
+          "reasons": [
+            "The raw user expression does not specify the target product to monitor for price drop, and there is no evidence verifying that the product in the proposal is the one the user intends to track."
+          ],
+          "missing_fields": [
+            "target_product_user_confirmation"
+          ],
+          "recommended_question": "请问你想要监控降价到650元的商品是否为「证据中不存在的另一件商品」（链接：https://shop.example.com/eval-product）？"
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2099,
+          "output_tokens": 1046,
+          "total_tokens": 3145
+        }
+      },
+      {
+        "id": "v06",
+        "valid": false,
+        "verdict": "reject",
+        "correct": true,
+        "details": {
+          "verdict": "reject",
+          "confidence": 1.0,
+          "reasons": [
+            "The proposed target price of 5 CNY conflicts with the user's explicitly stated target price of 650 CNY for the price drop alert",
+            "The proposed intent kind 'explicit_purchase' does not align with the user's actual requirement of setting a price drop reminder"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 2072,
+          "output_tokens": 1687,
+          "total_tokens": 3759
+        }
+      },
+      {
+        "id": "v07",
+        "valid": true,
+        "verdict": "approve",
+        "correct": true,
+        "details": {
+          "verdict": "approve",
+          "confidence": 0.99,
+          "reasons": [
+            "Product details (name, URL, current price, currency, availability) are fully confirmed by the evidence board with high confidence",
+            "The target price of 650 CNY exactly matches the requirement in the raw user expression",
+            "All hard constraints passed with no failures",
+            "notify_restock is correctly set to false as the user did not request restock notifications"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1938,
+          "output_tokens": 1245,
+          "total_tokens": 3183
+        }
+      },
+      {
+        "id": "v08",
+        "valid": true,
+        "verdict": "approve",
+        "correct": true,
+        "details": {
+          "verdict": "approve",
+          "confidence": 1.0,
+          "reasons": [
+            "Raw user expression explicitly requests a price drop reminder at 650, which matches the proposed target price",
+            "All product details in the proposal are verified by the evidence board with high confidence",
+            "Hard constraints check passed with no failures"
+          ],
+          "missing_fields": [],
+          "recommended_question": null
+        },
+        "runtime": {
+          "model_responses": 2,
+          "tool_calls": 2,
+          "duplicate_tool_calls": 0,
+          "input_tokens": 1864,
+          "output_tokens": 735,
+          "total_tokens": 2599
+        }
+      }
+    ]
+  }
+}
