@@ -1,5 +1,34 @@
 # 🛍️ Personal Shopping Assistant OS
 
+## Three-agent Doubao MVP
+
+The repository now includes a runnable, deployment-free multi-agent core with real Volcengine Ark
+Responses API support. Three LLM agents collaborate: Shopping Supervisor plans and delegates,
+Product Intelligence selects page-reading tools, and Independent Verifier reviews the exact proposal
+before a save or alert. Deterministic gates retain sole authority over persistence and notifications.
+
+```bash
+python3 -m shopping_agent multi-demo
+python3 -m unittest discover -s tests -v
+python3 -m shopping_agent eval --output eval_results/latest.json
+```
+
+`multi-demo` exercises the same tool-calling runtime with scripted model responses, so it needs no
+key. To run the actual Doubao agents, copy `.env.example` to the gitignored `.env`, add a newly
+created Ark key, and run `agent-say`.
+
+See [`docs/multiagent-doubao.md`](docs/multiagent-doubao.md) for the live architecture, security
+boundaries, model configuration, demo script, and extension integration contract. The earlier
+deterministic rules are documented in [`docs/agent-mvp.md`](docs/agent-mvp.md).
+
+The evaluation harness contains 25 intent cases, 33 cross-site product pages, 10 alert state
+transitions, and 8 adversarial verifier proposals. It reports product accuracy, reminder precision,
+disturbance, false auto-saves, verifier interception, tool calls, token usage, repeated investigation,
+and stop-condition rate. Generated JSON and Markdown reports are written to `eval_results/`.
+
+The Chrome Extension, Supabase, and Vercel layers are intentionally deferred. The existing
+Google Drive/Gmail workflow below remains as the original prototype and product-rule reference.
+
 An **agentic OS** for [Claude Code](https://docs.claude.com/en/docs/claude-code) that automatically
 watches a wishlist of fashion & beauty items across **Lululemon, SKIMS, Nordstrom, and Sephora**,
 detects two kinds of meaningful change — **a restock** or **a price drop to your target** — and

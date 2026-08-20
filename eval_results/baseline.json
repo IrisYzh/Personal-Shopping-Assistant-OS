@@ -1,0 +1,1150 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-20T05:51:02.789863+00:00",
+  "agent_status": "baseline_only",
+  "model_access": {},
+  "baseline_summary": {
+    "sample_sizes": {
+      "intent": 25,
+      "product": 33,
+      "reminder": 10,
+      "verifier": 0
+    },
+    "intent_accuracy": 0.52,
+    "explicit_intent_recall": 0.5,
+    "product_recognition_accuracy": 0.7576,
+    "reminder_precision": 1.0,
+    "reminder_recall": 1.0,
+    "disturbance": {
+      "false_auto_save_rate": 0.0,
+      "fuzzy_interest_confirmation_rate": 0.875,
+      "unnecessary_prompt_rate": 0.6
+    },
+    "verifier_bad_proposal_block_rate": null,
+    "verifier_false_block_rate": null,
+    "average_tool_calls": null,
+    "average_tokens_per_task": null,
+    "invalid_duplicate_investigation_rate": null,
+    "stop_condition_rate": 1.0
+  },
+  "guardrail_v2_summary": {
+    "sample_sizes": {
+      "intent": 25,
+      "product": 33,
+      "reminder": 10,
+      "verifier": 0
+    },
+    "intent_accuracy": 0.96,
+    "explicit_intent_recall": 1.0,
+    "product_recognition_accuracy": 0.9091,
+    "reminder_precision": 1.0,
+    "reminder_recall": 1.0,
+    "disturbance": {
+      "false_auto_save_rate": 0.0,
+      "fuzzy_interest_confirmation_rate": 1.0,
+      "unnecessary_prompt_rate": 0.2
+    },
+    "verifier_bad_proposal_block_rate": null,
+    "verifier_false_block_rate": null,
+    "average_tool_calls": null,
+    "average_tokens_per_task": null,
+    "invalid_duplicate_investigation_rate": null,
+    "stop_condition_rate": 1.0
+  },
+  "agent_summary": null,
+  "badcase_analysis": {
+    "legacy_badcase_count": 10,
+    "root_cause_distribution": {
+      "intent_miss": {
+        "count": 6,
+        "share": 0.6
+      },
+      "entity_extraction": {
+        "count": 4,
+        "share": 0.4
+      }
+    },
+    "cases": [
+      {
+        "id": "i01",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i02",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i03",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i04",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i05",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "i06",
+        "category": "intent_miss",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p26",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p27",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p28",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      },
+      {
+        "id": "p29",
+        "category": "entity_extraction",
+        "baseline_correct": false,
+        "agent_correct": true
+      }
+    ],
+    "closure_rate": 1.0
+  },
+  "baseline_results": {
+    "intent": [
+      {
+        "id": "i01",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i02",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i03",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i04",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i05",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i06",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "unknown",
+        "expected_route": "auto_save",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i07",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i08",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i09",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i10",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i11",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i12",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i13",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i14",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i15",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i16",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ignore",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i17",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i18",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "unknown",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i19",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i20",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i21",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i22",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i23",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i24",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i25",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "product": [
+      {
+        "id": "p01",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p02",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p03",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p04",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p05",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p06",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p07",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p08",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p09",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p10",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p11",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p12",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p13",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p14",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p15",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p16",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p17",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p18",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p19",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p20",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p21",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p22",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p23",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p24",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p25",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p26",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p27",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p28",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p29",
+        "source": "meta",
+        "correct": false,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p30",
+        "source": "meta",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p31",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p32",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p33",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "reminder": [
+      {
+        "id": "r01",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r02",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r03",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r04",
+        "expected": [
+          "restock"
+        ],
+        "actual": [
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r05",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r06",
+        "expected": [
+          "price_drop",
+          "restock"
+        ],
+        "actual": [
+          "price_drop",
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r07",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r08",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r09",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r10",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      }
+    ]
+  },
+  "guardrail_v2_results": {
+    "intent": [
+      {
+        "id": "i01",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i02",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i03",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i04",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i05",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i06",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": "intent_miss"
+      },
+      {
+        "id": "i07",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i08",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i09",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i10",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i11",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i12",
+        "expected_kind": "explicit_purchase",
+        "actual_kind": "explicit_purchase",
+        "expected_route": "auto_save",
+        "actual_route": "auto_save",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i13",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i14",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i15",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i16",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i17",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i18",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i19",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i20",
+        "expected_kind": "fuzzy_interest",
+        "actual_kind": "fuzzy_interest",
+        "expected_route": "ask_confirmation",
+        "actual_route": "ask_confirmation",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i21",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i22",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i23",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "i24",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ask_confirmation",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "i25",
+        "expected_kind": "unknown",
+        "actual_kind": "unknown",
+        "expected_route": "ignore",
+        "actual_route": "ignore",
+        "correct": true,
+        "legacy": null
+      }
+    ],
+    "product": [
+      {
+        "id": "p01",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p02",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p03",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p04",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p05",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p06",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p07",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p08",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p09",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p10",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p11",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p12",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p13",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p14",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p15",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p16",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p17",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p18",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p19",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p20",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p21",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p22",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p23",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p24",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p25",
+        "source": "jsonld",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p26",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p27",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p28",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p29",
+        "source": "meta",
+        "correct": true,
+        "legacy": "entity_extraction"
+      },
+      {
+        "id": "p30",
+        "source": "meta",
+        "correct": true,
+        "legacy": null
+      },
+      {
+        "id": "p31",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p32",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      },
+      {
+        "id": "p33",
+        "source": "text",
+        "correct": false,
+        "legacy": null
+      }
+    ],
+    "reminder": [
+      {
+        "id": "r01",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r02",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r03",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r04",
+        "expected": [
+          "restock"
+        ],
+        "actual": [
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r05",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r06",
+        "expected": [
+          "price_drop",
+          "restock"
+        ],
+        "actual": [
+          "price_drop",
+          "restock"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r07",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r08",
+        "expected": [
+          "price_drop"
+        ],
+        "actual": [
+          "price_drop"
+        ],
+        "correct": true
+      },
+      {
+        "id": "r09",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      },
+      {
+        "id": "r10",
+        "expected": [],
+        "actual": [],
+        "correct": true
+      }
+    ]
+  },
+  "agent_results": null
+}
