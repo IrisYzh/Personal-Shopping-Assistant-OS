@@ -15,6 +15,17 @@
   </header>
 
   <main id="wishlist" class="view">
+    <section id="current" class="current" hidden>
+      <p class="current-label">On this page</p>
+      <p id="currentName" class="name"></p>
+      <p id="currentMeta" class="meta"></p>
+      <div id="currentForm" class="prefs">
+        <input id="currentSize" placeholder="Size" aria-label="Size" autocomplete="off">
+        <input id="currentColor" placeholder="Color" aria-label="Color" autocomplete="off">
+        <button id="saveCurrent" class="small primary">Save this item</button>
+      </div>
+      <p id="currentNote" class="muted current-note"></p>
+    </section>
     <p id="status" class="muted">Loading your wishlist...</p>
     <ul id="items"></ul>
     <details id="boughtBox" class="bought-box" hidden>

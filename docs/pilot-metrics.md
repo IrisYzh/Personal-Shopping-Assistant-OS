@@ -18,6 +18,7 @@ https://<your-app>.onrender.com/metrics?format=md&key=<ADMIN_KEY>
 ```
 product page counted  ->  card shown  ->  Add / No thanks / closed / no answer
                                      \->  saved by cart or wishlist click
+                                     \->  saved with "Save this item" in the popup
 watched item  ->  change found  ->  email sent  ->  email link clicked  ->  marked Bought
 ```
 
@@ -34,6 +35,7 @@ Logged by the backend. The extension cannot fake these.
 | `prompt_accepted` | Add to wishlist on the card | size_filled, color_filled |
 | `prompt_declined` | No thanks on the card | |
 | `item_auto_saved` | A cart or wishlist click saved the item | kind |
+| `item_saved_from_popup` | Save this item in the popup | created, size_filled, color_filled |
 | `item_edited` | Size or color changed in the popup | size_set, color_set |
 | `item_removed` | Remove in the popup | status, days_watched |
 | `item_marked_bought` | Bought in the popup | days_watched, had_alert, had_email, price_below_baseline |
@@ -70,7 +72,7 @@ Sent by the extension through `POST /track` (only these names are accepted):
 | No answer | shown minus accepted, declined and closed, over shown | People who left the page. |
 | Size filled on accept | accepts with a size / prompt_accepted | Can size-level alerts work? |
 | Email click rate | emails with at least one click / emails sent | Are the emails useful? Counted per email, not per click. |
-| Bought per watched item | (marked bought minus undone) / (accepted + auto saved) | The closest thing to conversion. Self-reported. |
+| Bought per watched item | (marked bought minus undone) / (accepted + auto saved + new popup saves) | The closest thing to conversion. Self-reported. |
 | Check success rate | check_run ok / all check_run | How often shops block or confuse the reader. |
 | Prompts per person per active day | prompt_shown / person-days with any event | Guardrail: the rule is at most 1. |
 | Emails per person | email_sent / people | Guardrail against noise. |

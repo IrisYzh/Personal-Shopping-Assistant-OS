@@ -58,6 +58,11 @@ test("classifies cart and wishlist buttons on the four sites", () => {
   assert.strictEqual(classifyClick("Love"), "add_to_wishlist");
   assert.strictEqual(classifyClick("Remove from wishlist"), null);
   assert.strictEqual(classifyClick("Size guide"), null);
+  assert.strictEqual(classifyClick('Save, lululemon Align™ High-Rise Pant 25"'), "add_to_wishlist");
+  assert.strictEqual(classifyClick("Save"), "add_to_wishlist");
+  assert.strictEqual(classifyClick("Save 20% today"), null);
+  assert.strictEqual(classifyClick("Saved, lululemon Align™ High-Rise Pant 25\""), null);
+  assert.strictEqual(classifyClick("Unsave, Align Pant"), null);
 });
 
 test("canonical url drops tracking params", () => {

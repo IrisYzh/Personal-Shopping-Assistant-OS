@@ -150,8 +150,8 @@
 
   // Button text that means "add to cart" or "save to wishlist" on the four sites.
   const CART = /\badd to (bag|cart|basket)\b/i;
-  const WISHLIST = /(add to (wish ?list|favorites|loves)|\bwish ?list\b|\bfavorite\b|\blove\b|save for later)/i;
-  const REMOVE = /\b(remove|delete|unlove|unfavorite)\b/i;
+  const WISHLIST = /(add to (wish ?list|favorites|loves)|\bwish ?list\b|\bfavorite\b|\blove\b|save for later|^save(,|$))/i; // Lululemon heart: "Save, <product name>"
+  const REMOVE = /\b(remove|delete|unlove|unfavorite|unsave)\b/i;
 
   function classifyClick(label) {
     const text = String(label || "").replace(/\s+/g, " ").trim();

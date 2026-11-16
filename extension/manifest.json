@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Shopping Assistant",
   "short_name": "Shopping Assistant",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Quietly watches the items you keep coming back to on Lululemon, SKIMS, Nordstrom and Sephora, and tells you when your size is back or the price drops.",
   "permissions": ["storage"],
   "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],

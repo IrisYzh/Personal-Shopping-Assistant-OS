@@ -122,6 +122,27 @@ class TrackingTests(unittest.TestCase):
         self.api.set_bought("amy", item["id"], False)
         self.assertEqual(compute_metrics(self.events())["funnel"]["items_marked_bought"], 0)
 
+    def test_save_this_item_from_popup(self):
+        first = self.api.save_current("iris", {"product": PRODUCT, "size": " 6 ", "color": "Black"})
+        self.assertTrue(first["created"])
+        self.assertEqual(first["item"]["size"], "6")
+        self.assertEqual(first["item"]["status"], "watching")
+        self.assertTrue(first["item"]["notify_restock"])
+        # Saving the same page again keeps one item and updates the size.
+        again = self.api.save_current("iris", {"product": PRODUCT, "size": "8"})
+        self.assertFalse(again["created"])
+        self.assertEqual(again["item"]["id"], first["item"]["id"])
+        items = self.api.list_wishlist("iris")["items"]
+        self.assertEqual([item["size"] for item in items], ["8"])
+        logged = self.events("item_saved_from_popup")
+        self.assertEqual([row["created"] for row in logged], [True, False])
+        self.assertTrue(logged[0]["size_filled"] and logged[0]["color_filled"])
+        self.assertEqual(compute_metrics(self.events())["funnel"]["items_watched"], 1)
+        with self.assertRaises(ApiError):
+            self.api.save_current("iris", {"product": {**PRODUCT, "url": "https://example.com/p/1"}})
+        with self.assertRaises(ApiError):
+            self.api.save_current("iris", {"product": {**PRODUCT, "name": ""}})
+
     def test_client_events_are_whitelisted(self):
         with self.assertRaises(ApiError):
             self.api.track("iris", {"event": "prompt_accepted"})  # Only the backend may log the core funnel.

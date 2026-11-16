@@ -10,6 +10,7 @@ from .models import (
     Availability,
     BehaviorEvent,
     BehaviorEventType,
+    IntentDecision,
     IntentKind,
     Observation,
     OrchestrationResult,
@@ -306,6 +307,25 @@ class ShoppingOrchestrator:
         self._audit("confirmation_approved", {"pending_id": pending_id, "item_id": item.id})
         message = "确认完成，已加入监控清单。" if created else "确认完成，该商品已在清单中。"
         return OrchestrationResult(route=Route.AUTO_SAVE, message=message, intent=decision, item=item)
+
+    def save_from_popup(
+        self, product: ProductContext, *, size: str | None = None, color: str | None = None
+    ) -> tuple[WishlistItem, bool]:
+        """The user pressed "Save this item" in the extension popup: an explicit, direct save."""
+        decision = IntentDecision(
+            kind=IntentKind.EXPLICIT_PURCHASE,
+            confidence=1.0,
+            route=Route.AUTO_SAVE,
+            signals=["behavior:popup_save"],
+            notify_restock=True,
+            rationale="用户在插件弹窗中直接收藏当前商品。",
+        )
+        item, created = self._persist_item(
+            replace(product, confidence=max(product.confidence, 0.8)),
+            decision, size=_clean(size), color=_clean(color), added_via="popup",
+        )
+        self._audit("popup_saved", {"item_id": item.id, "created": created})
+        return item, created
 
     def check_item(
         self,

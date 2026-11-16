@@ -85,6 +85,10 @@ async function handle(message) {
       await chrome.storage.local.set({ unseen: 0 });
       await chrome.action.setBadgeText({ text: "" });
       return api("GET", "/wishlist");
+    case "saveCurrent": {
+      const data = await api("POST", "/wishlist", { product: message.product, size: message.size, color: message.color });
+      return data;
+    }
     case "bought":
       return api(message.bought ? "POST" : "DELETE", `/wishlist/${encodeURIComponent(message.id)}/bought`);
     case "track":

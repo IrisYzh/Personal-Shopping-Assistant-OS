@@ -38,6 +38,7 @@ SERVER_EVENTS = {
     "prompt_accepted",
     "prompt_declined",
     "item_auto_saved",
+    "item_saved_from_popup",
     "item_edited",
     "item_removed",
     "item_marked_bought",
@@ -142,7 +143,8 @@ def compute_metrics(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
     bought = max(count["item_marked_bought"] - count["item_unmarked_bought"], 0)
     rendered = count["prompt_rendered"]
     products_viewed = {row.get("product_url") for row in events if row["event"] == "product_view_counted"}
-    watched = accepted + count["item_auto_saved"]
+    popup_saved = sum(1 for row in events if row["event"] == "item_saved_from_popup" and row.get("created"))
+    watched = accepted + count["item_auto_saved"] + popup_saved
 
     return {
         "people": len(users),
@@ -156,6 +158,7 @@ def compute_metrics(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
             "prompts_declined": declined,
             "prompts_closed": closed,
             "items_auto_saved_from_cart_or_wishlist": count["item_auto_saved"],
+            "items_saved_from_popup": popup_saved,
             "items_watched": watched,
             "changes_detected": len(changes),
             "emails_sent": len(emails),

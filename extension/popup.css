@@ -67,3 +67,13 @@ button.small.remove { color: var(--bad); }
 .bought-box { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
 .bought-box summary { cursor: pointer; color: var(--muted); font-weight: 600; }
 .bought-box li.bought .name { font-weight: 500; color: var(--muted); }
+.current { background: var(--soft); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; }
+.current-label { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.current .name { margin: 0; }
+.current .meta { margin: 2px 0 8px; }
+.current .prefs input { width: 72px; }
+.current .prefs button { margin-left: auto; }
+.current-note { margin: 6px 0 0; min-height: 0; }
+.current-note:empty { display: none; }
+.current-note.done { color: var(--good); font-weight: 600; }
+[hidden] { display: none !important; }

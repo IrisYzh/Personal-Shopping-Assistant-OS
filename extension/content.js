@@ -122,5 +122,13 @@
     send({ type: "track", event: "prompt_rendered", props: { pending_id: prompt.pending_id, site: prompt.site } });
   }
 
+  // The popup asks for the product on this tab, for its "Save this item" button.
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (message && message.type === "currentProduct") {
+      product = readPage() || product;
+      sendResponse({ product });
+    }
+  });
+
   startPage();
 })();

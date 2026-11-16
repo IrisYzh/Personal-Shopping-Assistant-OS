@@ -248,6 +248,25 @@ class ShoppingApi:
         )
         return {"saved": result.item is not None, "item": _item_json(result.item, user) if result.item else None}
 
+    def save_current(self, user: str, body: dict[str, Any]) -> dict[str, Any]:
+        """"Save this item" in the popup: save the product on the open tab, with size and color."""
+        product = _product_from(body.get("product") or {})
+        site = site_for(product.url)
+        if not site:
+            raise ApiError(HTTPStatus.BAD_REQUEST, "This site is not supported yet")
+        if not product.name:
+            raise ApiError(HTTPStatus.BAD_REQUEST, "Could not read this product")
+        size, color = _text(body.get("size")), _text(body.get("color"))
+        ctx = self.context(user)
+        with ctx.lock:
+            item, created = ctx.orchestrator.save_from_popup(product, size=size, color=color)
+        self._mirror(user, item)
+        self.analytics.log(
+            "item_saved_from_popup", user, item_id=item.id, site=site, product_url=product.url, created=created,
+            size_filled=bool(size and size.strip()), color_filled=bool(color and color.strip()),
+        )
+        return {"saved": True, "created": created, "item": _item_json(item, user)}
+
     def list_wishlist(self, user: str) -> dict[str, Any]:
         ctx = self.context(user)
         with ctx.lock:
@@ -487,6 +506,7 @@ ROUTES = [
     ("POST", re.compile(r"^/events$"), "events"),
     ("POST", re.compile(r"^/confirm$"), "confirm"),
     ("GET", re.compile(r"^/wishlist$"), "wishlist"),
+    ("POST", re.compile(r"^/wishlist$"), "save_current"),
     ("PATCH", re.compile(r"^/wishlist/([A-Za-z0-9-]+)$"), "update"),
     ("DELETE", re.compile(r"^/wishlist/([A-Za-z0-9-]+)$"), "delete"),
     ("POST", re.compile(r"^/wishlist/([A-Za-z0-9-]+)/bought$"), "bought"),
@@ -576,6 +596,8 @@ def make_handler(api: ShoppingApi):
                     payload = api.confirm(user, body)
                 elif name == "wishlist":
                     payload = api.list_wishlist(user)
+                elif name == "save_current":
+                    payload = api.save_current(user, body)
                 elif name == "update":
                     payload = api.update_item(user, match.group(1), body)
                 elif name == "delete":

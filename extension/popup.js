@@ -76,6 +76,71 @@ async function loadWishlist() {
   }
   allItems = response.data.items || [];
   drawWishlist();
+  drawCurrent();
+}
+
+// ----- "Save this item": the product on the open tab -----
+let currentProduct = null;
+
+async function readCurrentProduct() {
+  if (PREVIEW) {
+    if (previewState !== "current") return null;
+    return { name: "Wunder Train High-Rise Tight 25\"", url: "#current", site: "Lululemon", price: 98, currency: "USD", availability: "in_stock", confidence: 0.95 };
+  }
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || !tab.id) return null;
+    const reply = await chrome.tabs.sendMessage(tab.id, { type: "currentProduct" });
+    return (reply && reply.product) || null;
+  } catch (_) {
+    return null; // Not a product page on a supported site, so there is no content script to answer.
+  }
+}
+
+function drawCurrent() {
+  const box = document.getElementById("current");
+  if (!currentProduct) {
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  document.getElementById("currentName").textContent = currentProduct.name;
+  const stock = currentProduct.availability === "in_stock" ? "in stock" : currentProduct.availability === "out_of_stock" ? "sold out" : "stock unknown";
+  document.getElementById("currentMeta").textContent = `${currentProduct.site} · ${money(currentProduct.price, currentProduct.currency)} · ${stock}`;
+  const saved = allItems.find((item) => item.url === currentProduct.url);
+  const form = document.getElementById("currentForm");
+  const note = document.getElementById("currentNote");
+  if (saved) {
+    form.hidden = true;
+    note.className = "muted current-note";
+    note.textContent = saved.status === "bought" ? "You marked this as bought." : "Already in your wishlist. Edit size or color below.";
+  } else {
+    form.hidden = false;
+    if (!note.classList.contains("error")) note.textContent = "";
+  }
+}
+
+async function saveCurrent() {
+  const button = document.getElementById("saveCurrent");
+  const note = document.getElementById("currentNote");
+  const size = document.getElementById("currentSize").value.trim();
+  const color = document.getElementById("currentColor").value.trim();
+  button.disabled = true;
+  const response = PREVIEW
+    ? { ok: true, data: { item: { ...currentProduct, id: "new", last_price: currentProduct.price, baseline_price: currentProduct.price, size, color, status: "watching" } } }
+    : await call({ type: "saveCurrent", product: currentProduct, size, color });
+  button.disabled = false;
+  if (!response.ok) {
+    note.className = "error current-note";
+    note.textContent = `Could not save. ${response.error}`;
+    return;
+  }
+  const item = response.data.item;
+  if (!allItems.some((other) => other.id === item.id)) allItems.unshift(item);
+  drawWishlist();
+  drawCurrent();
+  note.className = "current-note done";
+  note.textContent = "Saved. I will watch it for you.";
 }
 
 function drawWishlist() {
@@ -88,7 +153,7 @@ function drawWishlist() {
     ? `Watching ${watching.length} item${watching.length === 1 ? "" : "s"} for you.`
     : bought.length
       ? "Not watching anything right now."
-      : "Nothing here yet. Add an item to your cart or wishlist on a supported site, or say yes when I ask.";
+      : "Nothing here yet. Open a product page and press Save this item, or add it to your cart or wishlist on the site.";
   list.replaceChildren(...watching.map(renderItem));
   const box = document.getElementById("boughtBox");
   box.hidden = !bought.length;
@@ -415,6 +480,12 @@ if ((previewState || "").startsWith("search:")) {
     input.dispatchEvent(new Event("input"));
   }, 50);
 }
+document.getElementById("saveCurrent").addEventListener("click", saveCurrent);
+
 loadSettings();
+readCurrentProduct().then((product) => {
+  currentProduct = product;
+  drawCurrent();
+});
 loadWishlist();
 track("popup_opened");
