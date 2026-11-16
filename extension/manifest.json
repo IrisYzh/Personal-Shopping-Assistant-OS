@@ -2,11 +2,24 @@
   "manifest_version": 3,
   "name": "Shopping Assistant",
   "short_name": "Shopping Assistant",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Quietly watches the items you keep coming back to on Lululemon, SKIMS, Nordstrom and Sephora, and tells you when your size is back or the price drops.",
-  "permissions": ["storage"],
-  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
-  "optional_host_permissions": ["https://*/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -19,12 +32,21 @@
         "https://www.nordstrom.com/*",
         "https://www.sephora.com/*"
       ],
-      "js": ["product-parser.js", "card-ui.js", "content.js"],
+      "js": [
+        "product-parser.js",
+        "card-ui.js",
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
   "action": {
     "default_title": "Shopping Assistant",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
   }
 }

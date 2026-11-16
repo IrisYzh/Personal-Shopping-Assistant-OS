@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "extension"
 FILES = ["manifest.json", "background.js", "content.js", "product-parser.js", "card-ui.js",
          "popup.html", "popup.css", "popup.js"]
+ICONS = ["icons/icon16.png", "icons/icon32.png", "icons/icon48.png", "icons/icon128.png"]
 DEFAULT_API = "http://127.0.0.1:8787"
 
 
@@ -48,6 +49,8 @@ def build(api_base: str, out_dir: Path) -> Path:
                     raise SystemExit(f"Could not find the default backend URL in {name}")
                 text = text.replace(DEFAULT_API, api_base)
             archive.writestr(f"shopping-assistant/{name}", text)
+        for name in ICONS:
+            archive.write(SOURCE / name, f"shopping-assistant/{name}")
     return target
 
 
