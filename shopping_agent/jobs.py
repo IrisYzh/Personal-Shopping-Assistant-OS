@@ -5,6 +5,9 @@
   * Every day at 9 AM (PILOT_TIMEZONE): the daily summary, for people who turned it on.
   * Saturday 9 AM: the weekly summary.
 
+When a page has no structured data, Claude reads it (ai_reader.py), and a second model confirms any
+change before it can become an alert.
+
 Emails go only to the address each person typed in Settings. Every email and every check
 is written to the analytics log, so the metrics report can count them.
 """
@@ -26,6 +29,8 @@ from zoneinfo import ZoneInfo
 from .behavior_intent import parse_time
 from .digest import build_weekly_digest, instant_alert
 from .orchestrator import utc_now
+from . import ai_reader
+from .models import ObservationSource
 from .page_reader import fetch_page, observation_from, parse_html
 from .tracking import link_maker
 
@@ -55,8 +60,15 @@ def pilot_timezone() -> ZoneInfo:
 
 class PilotJobs:
     def __init__(self, api, *, mailer: Mailer | None = None, fetcher: Callable[[str], str] | None = None,
-                 state_path: str | Path | None = None):
+                 state_path: str | Path | None = None, ai=None):
         self.api = api
+        if ai is None and ai_reader.enabled():
+            try:
+                ai = ai_reader.ClaudePageReader()
+            except Exception as exc:  # A missing SDK must not stop the pilot.
+                log.warning("Claude page reader is off: %s", exc)
+                ai = None
+        self.ai = ai or None
         self.mailer = mailer or default_mailer
         self.fetcher = fetcher or fetch_page
         self.state_path = Path(state_path or Path(api.data_dir) / "jobs_state.json")
@@ -99,13 +111,49 @@ class PilotJobs:
 
     def check_one(self, user: str, item) -> dict:
         checked_at = utc_now()
+        html = None
         try:
-            product = parse_html(self.fetcher(item.url))
+            html = self.fetcher(item.url)
+            product = parse_html(html)
             error = None if product else "No product data found on the page"
         except Exception as exc:  # A blocked or slow site is a normal outcome, not a crash.
             product, error = None, f"{type(exc).__name__}: {str(exc)[:120]}"
         observation = observation_from(product, size=item.size, color=item.color, checked_at=checked_at, error=error)
+        if html and self.ai and (product is None or product.price is None):
+            observation = self._ai_observation(user, item, html, checked_at) or observation
         return self.api.apply_observation(user, item.id, observation, via="scheduled_check")
+
+    def _ai_observation(self, user: str, item, html: str, checked_at: str):
+        """Claude reads the page; a change only counts after a second model confirms it."""
+        analytics = self.api.analytics
+        try:
+            reading = self.ai.read(html, url=item.url, name=item.name, size=item.size, color=item.color)
+        except Exception as exc:
+            analytics.log("ai_read", user, item_id=item.id, ok=False, error=type(exc).__name__)
+            return None
+        analytics.log("ai_read", user, item_id=item.id, ok=reading.product is not None,
+                      dropped=reading.dropped[:5], **reading.usage)
+        if reading.product is None:
+            return None
+        observation = observation_from(reading.product, size=item.size, color=item.color, checked_at=checked_at,
+                                       source=ObservationSource.MODEL)
+        observation.evidence = list(observation.evidence) + reading.evidence
+        change = ai_reader.describe_change(item, observation)
+        if not change:
+            return observation
+        try:
+            confirmed, reason, usage = self.ai.verify(item_name=item.name, size=observation.size, change=change,
+                                                      text=reading.text)
+        except Exception as exc:
+            confirmed, reason, usage = False, f"verifier failed: {type(exc).__name__}", {}
+        analytics.log("ai_verify", user, item_id=item.id, confirmed=confirmed, change=change[:200],
+                      reason=reason, **usage)
+        if confirmed:
+            observation.evidence.append(f"verified: {reason}")
+            return observation
+        # Not confirmed: record a failed check so nothing is emailed and nothing is overwritten.
+        return observation_from(None, size=item.size, color=item.color, checked_at=checked_at,
+                                source=ObservationSource.MODEL, error=f"Change not confirmed: {reason}"[:200])
 
     # ----- emails -------------------------------------------------------------------
 

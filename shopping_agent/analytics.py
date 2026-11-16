@@ -44,6 +44,8 @@ SERVER_EVENTS = {
     "item_marked_bought",
     "item_unmarked_bought",
     "check_run",
+    "ai_read",
+    "ai_verify",
     "change_detected",
     "email_sent",
     "email_link_clicked",
@@ -200,6 +202,28 @@ def compute_metrics(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
             "email_failures": count["email_failed"],
             "changes_by_type": dict(Counter(row.get("type", "unknown") for row in changes)),
         },
+        "ai": _ai_metrics(events),
+    }
+
+
+def _ai_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Claude page reading: how often it was needed, how often it read something the page proved,
+    how often the second model stopped a change, and what it cost in tokens."""
+    reads = [row for row in events if row["event"] == "ai_read"]
+    verifies = [row for row in events if row["event"] == "ai_verify"]
+    ok = sum(1 for row in reads if row.get("ok"))
+    confirmed = sum(1 for row in verifies if row.get("confirmed"))
+    tokens_in = sum(int(row.get("input_tokens") or 0) for row in reads + verifies)
+    tokens_out = sum(int(row.get("output_tokens") or 0) for row in reads + verifies)
+    return {
+        "pages_read_by_claude": len(reads),
+        "pages_read_ok": ok,
+        "read_success_rate": _rate(ok, len(reads)),
+        "changes_sent_to_verifier": len(verifies),
+        "changes_confirmed": confirmed,
+        "changes_blocked": len(verifies) - confirmed,
+        "input_tokens": tokens_in,
+        "output_tokens": tokens_out,
     }
 
 
@@ -237,6 +261,14 @@ def metrics_report(events: list[dict[str, Any]], *, per_person: bool = True) -> 
         f"* Prompts per person per active day: {n['prompts_per_person_per_active_day']} (rule: at most 1)",
         f"* Emails per person: {n['emails_per_person']}  ·  by kind: {n['emails_by_kind'] or 'none'}",
         f"* Items removed: {n['items_removed']}  ·  history cleared: {n['history_cleared']}",
+        "",
+        "## Claude page reading",
+        "",
+        f"* Pages Claude read (no structured data): {total['ai']['pages_read_by_claude']}, "
+        f"read with proof: {total['ai']['pages_read_ok']} ({pct(total['ai']['read_success_rate'])})",
+        f"* Changes checked by the second model: {total['ai']['changes_sent_to_verifier']}, "
+        f"confirmed: {total['ai']['changes_confirmed']}, blocked: {total['ai']['changes_blocked']}",
+        f"* Tokens: {total['ai']['input_tokens']} in, {total['ai']['output_tokens']} out",
         "",
         "With 3 to 5 people, report counts next to every rate. A rate on a handful of events is a story, not a statistic.",
     ]

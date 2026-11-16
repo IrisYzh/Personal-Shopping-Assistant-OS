@@ -119,8 +119,10 @@ Send each friend, privately:
 
 ## What is not in this pilot
 
-* Claude is not used in the live checks yet. The page reader handles JSON-LD and meta tags.
-  A Claude fallback for pages without structured data is the next step.
+* Claude reads a page only when it has no structured data (JSON-LD or meta tags). It needs
+  `ANTHROPIC_API_KEY` in Render; without it those pages count as failed checks, as before.
+  Every value Claude reports must quote the page word for word, and a second model confirms any
+  change before it can become an email. See "Claude page reading" in the metrics report.
 * Restock by size works only where the page lists sizes in its structured data. Otherwise
   the email says "Back in stock" without a size.
 * Only the four sites in `shopping_agent/site_catalog.json`.

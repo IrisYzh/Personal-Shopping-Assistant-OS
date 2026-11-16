@@ -42,6 +42,8 @@ Logged by the backend. The extension cannot fake these.
 | `item_unmarked_bought` | Undo or Watch again | |
 | `check_run` | One price and stock check | via (scheduled_check or page_visit), ok, size_level, error |
 | `change_detected` | A check found a restock, price drop or sale | type, size_level |
+| `ai_read` | Claude read a page that had no structured data | ok, dropped (values thrown out for lack of a quote), input_tokens, output_tokens, error |
+| `ai_verify` | A second model checked a change Claude found | confirmed, change, reason, tokens |
 | `email_sent` | An email went out | email_id, kind (instant_size_back, instant_price_drop, instant_sale_start, daily_digest, weekly_digest) |
 | `email_failed` | Gmail refused an email | kind, error |
 | `email_link_clicked` | A product link in an email was opened | email_id, kind, item_id |
@@ -74,6 +76,8 @@ Sent by the extension through `POST /track` (only these names are accepted):
 | Email click rate | emails with at least one click / emails sent | Are the emails useful? Counted per email, not per click. |
 | Bought per watched item | (marked bought minus undone) / (accepted + auto saved + new popup saves) | The closest thing to conversion. Self-reported. |
 | Check success rate | check_run ok / all check_run | How often shops block or confuse the reader. |
+| Claude read success | ai_read ok / all ai_read | Can Claude read pages the structured reader cannot, with proof? |
+| Changes blocked by the verifier | ai_verify not confirmed / all ai_verify | How often the second model stopped a doubtful alert. |
 | Prompts per person per active day | prompt_shown / person-days with any event | Guardrail: the rule is at most 1. |
 | Emails per person | email_sent / people | Guardrail against noise. |
 
