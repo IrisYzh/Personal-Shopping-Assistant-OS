@@ -1,0 +1,5 @@
+# The API server, jobs and emails use only the Python standard library.
+# tzdata gives zoneinfo the time zone files on slim Linux images.
+tzdata>=2024.1
+# Only needed for the three-agent Claude features (agent-say, agent-check, eval).
+anthropic>=0.40

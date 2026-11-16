@@ -6,7 +6,14 @@ import json
 import tempfile
 from pathlib import Path
 
-from .models import Availability, Observation, ObservationSource, ProductContext, to_primitive
+from .models import (
+    Availability,
+    BehaviorEventType,
+    Observation,
+    ObservationSource,
+    ProductContext,
+    to_primitive,
+)
 from .orchestrator import ShoppingOrchestrator, utc_now
 from .storage import JsonRepository
 
@@ -23,6 +30,7 @@ def product_from_args(args) -> ProductContext:
         currency=args.currency,
         availability=Availability(args.stock),
         confidence=args.product_confidence if args.product and args.url else 0.0,
+        promotion_text=getattr(args, "promotion", None),
     )
 
 
@@ -37,6 +45,7 @@ def observation_from_args(args, prefix: str = "") -> Observation | None:
         confidence=getattr(args, f"{prefix}confidence"),
         source=ObservationSource(getattr(args, f"{prefix}source")),
         checked_at=utc_now(),
+        promotion_text=getattr(args, f"{prefix}promotion", None),
         evidence=getattr(args, f"{prefix}evidence") or [],
         error=getattr(args, f"{prefix}error"),
     )
@@ -142,6 +151,7 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--source", choices=[item.value for item in ObservationSource], default="structured")
     check.add_argument("--evidence", action="append")
     check.add_argument("--error")
+    check.add_argument("--promotion")
     check.add_argument("--fallback-price", type=float)
     check.add_argument("--fallback-stock", choices=[item.value for item in Availability])
     check.add_argument("--fallback-confidence", type=float, default=0.99)
@@ -150,6 +160,47 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check.add_argument("--fallback-evidence", action="append")
     check.add_argument("--fallback-error")
+    check.add_argument("--fallback-promotion")
+
+    behavior = subparsers.add_parser(
+        "behavior", help="Record a product behavior event and infer product-level intent"
+    )
+    behavior.add_argument("event", choices=[item.value for item in BehaviorEventType])
+    behavior.add_argument("--product", required=True)
+    behavior.add_argument("--url", required=True)
+    behavior.add_argument("--session-id", required=True)
+    behavior.add_argument("--occurred-at")
+    behavior.add_argument("--price", type=float)
+    behavior.add_argument("--currency", default="CNY")
+    behavior.add_argument("--stock", choices=[item.value for item in Availability], default="unknown")
+    behavior.add_argument("--product-confidence", type=float, default=0.95)
+    behavior.add_argument("--promotion")
+
+    digest = subparsers.add_parser(
+        "daily-digest", help="Build deferred questions for fuzzy behavioral interest"
+    )
+    digest.add_argument("--at", help="Optional ISO timestamp for a deterministic demo")
+
+    weekly = subparsers.add_parser("weekly-digest", help="Build the Saturday digest email for one user")
+    weekly.add_argument("--at", help="Optional ISO timestamp for a deterministic demo")
+    weekly.add_argument("--to", help="Send the digest to this address with Gmail SMTP")
+
+    subparsers.add_parser("preview-emails", help="Refresh the sample emails shown in extension/preview.html")
+
+    serve = subparsers.add_parser("serve", help="Run the HTTP API for the Chrome extension")
+    serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument("--port", type=int, default=8787)
+    serve.add_argument("--data-dir", default="data/users")
+    serve.add_argument("--jobs", action="store_true", help="Also run price checks and send emails on a schedule")
+
+    metrics = subparsers.add_parser("metrics", help="Print the pilot metrics report from data/users/analytics.jsonl")
+    metrics.add_argument("--file", default="data/users/analytics.jsonl")
+    metrics.add_argument("--since", help="Only events on or after this ISO date")
+    metrics.add_argument("--json", action="store_true", help="Print raw numbers instead of the Markdown report")
+
+    run_jobs = subparsers.add_parser("run-jobs", help="Run the background jobs once: checks, alerts, summaries")
+    run_jobs.add_argument("--data-dir", default="data/users")
+    run_jobs.add_argument("--only", choices=["check", "instant", "daily", "weekly"])
 
     subparsers.add_parser("list", help="List locally persisted wishlist items")
     subparsers.add_parser("state", help="Print the complete local state and audit log")
@@ -165,7 +216,7 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["intent", "product", "reminder", "verifier"],
     )
 
-    agent_say = subparsers.add_parser("agent-say", help="Run the real three-agent system with Doubao")
+    agent_say = subparsers.add_parser("agent-say", help="Run the real three-agent system on Claude")
     agent_say.add_argument("expression")
     agent_say.add_argument("--product")
     agent_say.add_argument("--url")
@@ -189,6 +240,42 @@ def main() -> None:
     args = parser.parse_args()
     if args.command == "demo":
         run_demo()
+        return
+    if args.command == "preview-emails":
+        from .preview import write_preview_emails
+
+        print(f"Wrote {write_preview_emails()}")
+        return
+    if args.command == "serve":
+        from .server import serve
+
+        import os as _os
+
+        port = int(_os.environ.get("PORT", args.port))  # Render and similar hosts set PORT.
+        serve(args.host, port, args.data_dir, jobs=args.jobs)
+        return
+    if args.command == "metrics":
+        from .analytics import AnalyticsLog, compute_metrics, metrics_report
+
+        events = AnalyticsLog(args.file).events(since=args.since)
+        print(json.dumps(compute_metrics(events), indent=2) if args.json else metrics_report(events))
+        return
+    if args.command == "run-jobs":
+        from .jobs import PilotJobs
+        from .multiagent.provider import load_local_env
+        from .server import ShoppingApi
+
+        load_local_env()
+        jobs = PilotJobs(ShoppingApi(args.data_dir))
+        if args.only == "check":
+            result = jobs.check_all()
+        elif args.only == "instant":
+            result = {"instant": jobs.send_instant_alerts()}
+        elif args.only in ("daily", "weekly"):
+            result = {args.only: jobs.send_digests(f"{args.only}_digest")}
+        else:
+            result = jobs.tick()
+        emit(result)
         return
     if args.command == "multi-demo":
         from .multiagent.demo import run_scripted_demo
@@ -245,7 +332,34 @@ def main() -> None:
     repository = JsonRepository(args.state)
     orchestrator = ShoppingOrchestrator(repository=repository)
 
-    if args.command == "say":
+    if args.command == "behavior":
+        emit(
+            orchestrator.record_behavior(
+                args.event,
+                product_from_args(args),
+                session_id=args.session_id,
+                occurred_at=args.occurred_at,
+            )
+        )
+    elif args.command == "weekly-digest":
+        from .digest import build_weekly_digest
+
+        digest = build_weekly_digest(repository, now=args.at)
+        if digest is None:
+            emit({"sent": False, "reason": "Nothing changed this week, so no email."})
+        elif args.to:
+            import sys
+
+            sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+            from send_email import send
+
+            send(args.to, digest.subject, digest.body, digest.html)
+            emit({"sent": True, "to": args.to, "subject": digest.subject})
+        else:
+            print(f"Subject: {digest.subject}\n\n{digest.body}")
+    elif args.command == "daily-digest":
+        emit(orchestrator.build_daily_interest_digest(now=args.at))
+    elif args.command == "say":
         emit(orchestrator.handle_expression(args.expression, product_from_args(args)))
     elif args.command == "confirm":
         emit(

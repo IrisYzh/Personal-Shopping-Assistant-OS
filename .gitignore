@@ -5,6 +5,7 @@
 __pycache__/
 *.pyc
 data/agent_state.json
+data/users/
 eval_results/*.checkpoint.json
 
 # OS
@@ -15,3 +16,4 @@ projects/**/*.md
 context/memory/*.md
 crons/logs/
 !**/.keep
+dist/

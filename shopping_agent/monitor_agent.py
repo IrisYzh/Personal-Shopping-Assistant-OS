@@ -75,12 +75,19 @@ class MonitorAgent:
         if crossed_price_threshold:
             alerts.append("price_drop")
 
+        if (
+            item.policy.notify_promotions
+            and selected.promotion_text
+            and selected.promotion_text != item.last_promotion
+        ):
+            alerts.append("promotion")
+
         return (
             MonitorDecision(
                 accepted=True,
                 state="alert" if alerts else "no_change",
                 alert_types=alerts,
-                reason="仅在补货状态跃迁或价格首次越过阈值时提醒。",
+                reason="仅在补货状态跃迁、价格首次越过阈值或促销内容变化时提醒。",
                 used_fallback=used_fallback,
                 next_check_hours=item.policy.frequency_hours,
             ),

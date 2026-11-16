@@ -1,25 +1,51 @@
+![Personal Shopping Agent banner](assets/branding/personal-shopping-agent-banner.png)
+
 # 🛍️ Personal Shopping Assistant OS
 
-## Three-agent Doubao MVP
+## Chrome extension pilot
 
-The repository now includes a runnable, deployment-free multi-agent core with real Volcengine Ark
-Responses API support. Three LLM agents collaborate: Shopping Supervisor plans and delegates,
-Product Intelligence selects page-reading tools, and Independent Verifier reviews the exact proposal
-before a save or alert. Deterministic gates retain sole authority over persistence and notifications.
+A Chrome extension for Lululemon, SKIMS, Nordstrom and Sephora quietly learns which items you keep
+coming back to. Add to cart or wishlist saves an item right away. The 3rd view in 7 days across two
+sessions shows a small card that asks once, with optional size and color. A shared backend keeps
+each pilot user's wishlist apart, checks prices and stock every 6 hours (by size where the page
+lists sizes), and emails each person only about the changes they chose. A "Bought" button and
+built-in tracking points give the pilot its funnel numbers.
+
+* Setup and how it works: [`docs/browser-extension.md`](docs/browser-extension.md)
+* Launch on Render and invite friends: [`docs/pilot-guide.md`](docs/pilot-guide.md)
+* Tracking points and metric definitions: [`docs/pilot-metrics.md`](docs/pilot-metrics.md)
+
+```bash
+python3 -m shopping_agent serve --jobs   # backend, checks and emails on http://127.0.0.1:8787
+python3 -m shopping_agent metrics        # pilot report
+# then load the extension/ folder in chrome://extensions with Developer mode on
+```
+
+## Three-agent core on Claude
+
+Three LLM agents collaborate: Shopping Supervisor plans and delegates, Product Intelligence selects
+page-reading tools, and Independent Verifier reviews the exact proposal before a save or alert.
+Deterministic gates keep sole authority over saving and notifications. The agents run on Claude by
+default (Haiku 5.5 for Supervisor and Product Intelligence, Sonnet 5.5 for Verifier); the older
+Doubao setup is still available with `SHOPPING_AGENT_PROVIDER=ark`.
 
 ```bash
 python3 -m shopping_agent multi-demo
+python3 -m shopping_agent --state data/agent_state.json behavior view \
+  --product "Retro runner" --url "https://shop.example.com/retro-runner" --session-id session-1
 python3 -m unittest discover -s tests -v
+node --test extension/tests/*.test.js
 python3 -m shopping_agent eval --output eval_results/latest.json
 ```
 
 `multi-demo` exercises the same tool-calling runtime with scripted model responses, so it needs no
-key. To run the actual Doubao agents, copy `.env.example` to the gitignored `.env`, add a newly
-created Ark key, and run `agent-say`.
+key. To run the real agents, copy `.env.example` to the gitignored `.env`, add an Anthropic API key,
+and run `agent-say`.
 
 See [`docs/multiagent-doubao.md`](docs/multiagent-doubao.md) for the live architecture, security
 boundaries, model configuration, demo script, and extension integration contract. The earlier
-deterministic rules are documented in [`docs/agent-mvp.md`](docs/agent-mvp.md).
+deterministic rules are documented in [`docs/agent-mvp.md`](docs/agent-mvp.md). The behavior event
+model and daily digest flow are documented in [`docs/behavior-intent.md`](docs/behavior-intent.md).
 
 The evaluation harness contains 25 intent cases, 33 cross-site product pages, 10 alert state
 transitions, and 8 adversarial verifier proposals. It reports product accuracy, reminder precision,

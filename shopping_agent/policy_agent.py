@@ -29,4 +29,5 @@ class PolicyAgent:
             drop_percent=drop_percent,
             notify_restock=decision.notify_restock,
             source=source,
+            notify_promotions=True,
         )

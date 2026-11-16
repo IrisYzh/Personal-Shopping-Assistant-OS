@@ -162,6 +162,187 @@ class ArkResponsesProvider:
         self.telemetry.clear()
 
 
+DEFAULT_CLAUDE_MODELS = {
+    "supervisor": "claude-haiku-5-5",
+    "product": "claude-haiku-5-5",
+    "verifier": "claude-sonnet-5-5",
+}
+
+
+def load_local_env() -> None:
+    """Load a gitignored local .env without printing or overriding shell values."""
+    path = Path.cwd() / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+class ClaudeMessagesProvider:
+    """Adapter that runs the shared agent loop on the Claude Messages API.
+
+    The agent runner speaks in Responses API terms (previous_response_id plus
+    function_call_output items). The Messages API is stateless, so this adapter
+    keeps each agent's conversation keyed by the last response id and replays it.
+    """
+
+    def __init__(
+        self,
+        client: Any | None = None,
+        *,
+        max_tokens: int = 16000,
+        timeout_seconds: float = 120.0,
+        max_retries: int = 2,
+    ):
+        load_local_env()
+        if client is None:
+            try:
+                import anthropic
+            except ImportError as exc:  # pragma: no cover - depends on the local install
+                raise RuntimeError("Install the Anthropic SDK first: pip install anthropic") from exc
+            client = anthropic.AsyncAnthropic(timeout=timeout_seconds, max_retries=max_retries)
+        self.client = client
+        self.max_tokens = max_tokens
+        self.timeout_seconds = timeout_seconds
+        self.max_retries = max_retries
+        self.telemetry: list[dict[str, Any]] = []
+        self._conversations: dict[str, list[dict[str, Any]]] = {}
+
+    @staticmethod
+    def _tool_schema(tool: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "name": tool["name"],
+            "description": tool.get("description", ""),
+            "input_schema": tool.get("parameters") or {"type": "object", "properties": {}},
+        }
+
+    async def respond(
+        self,
+        *,
+        agent_name: str,
+        model: str,
+        instructions: str,
+        input_text: str | None,
+        tools: list[dict[str, Any]],
+        previous_response_id: str | None = None,
+        tool_outputs: list[dict[str, Any]] | None = None,
+    ) -> ModelResponse:
+        if previous_response_id and previous_response_id in self._conversations:
+            messages = list(self._conversations.pop(previous_response_id))
+            messages.append(
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": item["call_id"],
+                            "content": item.get("output", ""),
+                        }
+                        for item in (tool_outputs or [])
+                    ],
+                }
+            )
+        else:
+            messages = [{"role": "user", "content": f"<input>\n{input_text or ''}\n</input>"}]
+
+        params: dict[str, Any] = {
+            "model": model,
+            "max_tokens": self.max_tokens,
+            "system": instructions,
+            "messages": messages,
+        }
+        if tools:
+            params["tools"] = [self._tool_schema(tool) for tool in tools]
+
+        try:
+            message = await self.client.messages.create(**params)
+        except Exception as exc:
+            status = getattr(exc, "status_code", None)
+            label = f"({status})" if status else f"network error ({type(exc).__name__})"
+            raise RuntimeError(f"Claude Messages API failed {label}: {exc}") from exc
+
+        if getattr(message, "stop_reason", None) == "refusal":
+            raise RuntimeError(f"Claude declined the request for {agent_name}")
+
+        calls: list[FunctionCall] = []
+        text_parts: list[str] = []
+        for block in message.content:
+            if block.type == "tool_use":
+                calls.append(
+                    FunctionCall(
+                        call_id=block.id,
+                        name=block.name,
+                        arguments=json.dumps(block.input, ensure_ascii=False),
+                    )
+                )
+            elif block.type == "text":
+                text_parts.append(block.text)
+
+        if calls:
+            # Keep the full assistant turn, thinking blocks included, for the next tool round.
+            self._conversations[message.id] = messages + [{"role": "assistant", "content": message.content}]
+
+        input_tokens = int(getattr(message.usage, "input_tokens", 0) or 0)
+        output_tokens = int(getattr(message.usage, "output_tokens", 0) or 0)
+        usage = {
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": input_tokens + output_tokens,
+        }
+        result = ModelResponse(
+            id=message.id,
+            output_text="\n".join(text_parts),
+            function_calls=calls,
+            usage=usage,
+            raw={"stop_reason": getattr(message, "stop_reason", None), "model": model},
+        )
+        self.telemetry.append(
+            {
+                "agent_name": agent_name,
+                "model": model,
+                "response_id": result.id,
+                "usage": usage,
+                "tool_calls": [call.name for call in calls],
+                "stop_output": not bool(calls),
+            }
+        )
+        return result
+
+    def reset_telemetry(self) -> None:
+        self.telemetry.clear()
+
+
+def default_models() -> dict[str, str]:
+    """Model per agent role. Claude by default, overridable from the environment."""
+    load_local_env()
+    if provider_name() == "ark":
+        return {
+            "supervisor": os.getenv("DOUBAO_SUPERVISOR_MODEL", "doubao-seed-2-0-lite-260215"),
+            "product": os.getenv("DOUBAO_PRODUCT_MODEL", "doubao-seed-2-0-lite-260215"),
+            "verifier": os.getenv("DOUBAO_VERIFIER_MODEL", "doubao-seed-2-0-pro-260215"),
+        }
+    return {
+        role: os.getenv(f"CLAUDE_{role.upper()}_MODEL", model)
+        for role, model in DEFAULT_CLAUDE_MODELS.items()
+    }
+
+
+def provider_name() -> str:
+    return os.getenv("SHOPPING_AGENT_PROVIDER", "claude").strip().lower()
+
+
+def make_provider() -> "ModelProvider":
+    """Claude is the default. Set SHOPPING_AGENT_PROVIDER=ark to use the older Doubao setup."""
+    load_local_env()
+    if provider_name() == "ark":
+        return ArkResponsesProvider()
+    return ClaudeMessagesProvider()
+
+
 class ScriptedProvider:
     """Deterministic provider used to test the same agent loop without an API key."""
 

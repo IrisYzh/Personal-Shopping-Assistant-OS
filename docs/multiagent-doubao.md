@@ -8,12 +8,15 @@ adapter，不需要改 Agent 决策协议。
 
 ```mermaid
 flowchart LR
-    U["用户表达 + 商品页快照"] --> S["Shopping Supervisor<br/>规划、意图、委派"]
+    B["商品行为事件"] --> A["Behavior Intent<br/>7 天窗口聚合"]
+    A -->|加购 / 收藏| G["确定性 Confidence Gate"]
+    A -->|跨会话多次浏览| D["每日兴趣确认"]
+    U["主动文本指令 + 商品页快照"] --> S["Shopping Supervisor<br/>规划、意图、委派"]
     S -->|自主调用| P["Product Intelligence<br/>商品识别 / 价格库存观测"]
     P -->|自主选择| T["JSON-LD / Meta / 正文工具"]
     S -->|保存候选| V["Independent Verifier<br/>独立复核证据"]
     P -->|提醒候选| V
-    S --> G["确定性 Confidence Gate"]
+    S --> G
     V --> G
     G -->|高置信度 + 精确提案已通过| W["本地 Repository"]
     G -->|模糊 / 缺字段 / 校验失败| C["反问确认 / manual review"]
@@ -31,13 +34,25 @@ flowchart LR
 Policy、Trigger、Confidence Gate 和 Repository 都是确定性模块，不占用 LLM 调用。它们分别负责
 监控频率、阈值跃迁、最终副作用授权和持久化。
 
+行为意图是默认入口。浏览频次由确定性 `BehaviorIntentAgent` 聚合，不会为每次 page view 调用
+LLM。加购和收藏直接提供明确意图证据；跨会话重复浏览进入每日汇总。LLM 继续负责商品事实提取、
+主动文本理解和提醒前独立校验。详细规则见 `docs/behavior-intent.md`。
+
 这不是固定自动化工作流：真实运行时，由模型逐轮决定是否调用以及调用哪个只读工具；Product
 Agent 和 Verifier 是可独立运行的专门 Agent；Supervisor 可以根据工具结果修正计划。与此同时，
 副作用仍由代码门禁控制，避免“自主”变成不可审计。
 
 ## 两条核心链路
 
-### 用户表达
+### 行为优先入口
+
+1. content script 发送 `view / add_to_cart / add_to_wishlist` 及对应移除事件。
+2. 系统按商品 URL 统计 7 天内浏览次数和独立会话数。
+3. 加购或收藏自动建立价格、库存和促销监控。
+4. 至少 3 次浏览且跨 2 个会话、又没有强行动时，只进入每日兴趣询问。
+5. 同一商品每天最多生成一次询问，用户确认后才写入监控清单。
+
+### 主动文本表达
 
 1. Supervisor 获得用户原话、已有商品上下文和页面地址。
 2. 它可以调用 `rule_intent_analysis` 获得确定性意图基线。
@@ -56,10 +71,10 @@ Agent 和 Verifier 是可独立运行的专门 Agent；Supervisor 可以根据�
 任一条件不满足都不会静默写入。Supervisor 在校验后改价格、目标价、URL 等关键字段时，系统会
 用最终提案再次调用 Verifier。
 
-### 价格与库存监控
+### 价格、库存与促销监控
 
 1. Product Agent 以 `observe` 模式重读页面，并可读取上一次状态。
-2. 确定性 Trigger Engine 判断是否第一次越过目标价或发生 `out_of_stock -> in_stock`。
+2. 确定性 Trigger Engine 判断是否第一次越过目标价、发生 `out_of_stock -> in_stock`，或出现新的促销内容。
 3. 没有触发条件时直接接受新观测，不浪费 Verifier 调用。
 4. 有潜在提醒时，Verifier 独立复核证据与候选提醒；通过后才更新状态并生成 alert。
 5. Product Agent 低置信度时退回 JSON-LD；解析失败不覆盖旧数据。Verifier 超时或非法输出时进入
@@ -144,7 +159,8 @@ python3 -m shopping_agent \
 python3 -m unittest discover -s tests -v
 ```
 
-当前 34 项测试覆盖：意图分流、确认后写入、去重、监控频率、目标价跃迁、补货跃迁、低置信度
+当前 47 项测试覆盖：行为频次分流、跨会话去重、加购与收藏强信号、每日兴趣询问、促销去重、
+文本意图分流、确认后写入、监控频率、目标价跃迁、补货跃迁、低置信度
 JSON-LD 降级、连续失败升级、真实 Agent 工具循环、Agent 内写工具拦截、三 Agent 委派、模糊兴趣
 不调用校验、提醒复核、最终提案被篡改后二次校验、Verifier 故障时阻断提醒。
 
@@ -179,11 +195,12 @@ badcase 中意图漏召 6 条、实体抽取 4 条，比例为 60% / 40%。三 A
 | `multiagent/agents.py` | 三个 Agent、提示词、工具和委派关系 |
 | `multiagent/system.py` | Evidence Board、置信度门禁、精确提案校验、写入与提醒编排 |
 | `multiagent/product_tools.py` | 通用 JSON-LD、meta 与可见正文解析 |
+| `behavior_intent.py` | 商品级行为窗口、强信号状态与模糊兴趣判定 |
 | `policy_agent.py` | 6/24/72 小时频率与价格阈值策略 |
 | `monitor_agent.py` | 确定性状态跃迁、失败退避与 fallback |
 | `storage.py` / `ports.py` | 本地 JSON adapter 与未来 Supabase 端口 |
 
-Chrome content script 以后只需传 `{expression, pageSnapshot}`；popup 只读 repository；Vercel cron
+Chrome content script 以后传 `{event, sessionId, product}`，用户主动设置时再传 `{expression, pageSnapshot}`；popup 只读 repository；Vercel cron
 调用 `monitor_item`。因此插件层不会持有模型密钥，Ark 调用最终应迁到服务端 API。
 
 ## 官方参考

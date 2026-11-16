@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Shopping Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Shopping Assistant</h1>
+    <nav>
+      <button data-view="wishlist" class="tab active">Wishlist</button>
+      <button data-view="settings" class="tab">Settings</button>
+    </nav>
+  </header>
+
+  <main id="wishlist" class="view">
+    <p id="status" class="muted">Loading your wishlist...</p>
+    <ul id="items"></ul>
+    <details id="boughtBox" class="bought-box" hidden>
+      <summary id="boughtCount">Bought</summary>
+      <ul id="boughtItems"></ul>
+    </details>
+  </main>
+
+  <main id="settings" class="view" hidden>
+    <section>
+      <h2>Connection</h2>
+      <label>Backend URL<input id="apiBase" type="url" placeholder="https://your-backend.example.com"></label>
+      <label>Your pilot key<input id="pilotKey" type="password" autocomplete="off"></label>
+    </section>
+    <section>
+      <h2>Sites I watch</h2>
+      <div id="sites" class="chips" aria-live="polite"></div>
+      <div class="search">
+        <input id="siteSearch" type="search" placeholder="Add a site, like Lululemon" autocomplete="off"
+          role="combobox" aria-expanded="false" aria-controls="siteSuggestions" aria-label="Search supported sites">
+        <ul id="siteSuggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+    </section>
+    <section>
+      <h2>Email</h2>
+      <label>Send emails to<input id="emailAddress" type="email" placeholder="you@example.com" autocomplete="email"></label>
+      <fieldset>
+        <legend>Send me a summary</legend>
+        <label class="check"><input type="checkbox" name="weekly_digest">Weekly digest, Saturday morning</label>
+        <label class="check"><input type="checkbox" name="daily_digest">Daily digest</label>
+      </fieldset>
+      <fieldset>
+        <legend>Email me right away when</legend>
+        <label class="check"><input type="checkbox" name="size_back">My size is back in stock</label>
+        <label class="check"><input type="checkbox" name="price_drop">The price drops</label>
+        <label class="check"><input type="checkbox" name="sale_start">An item I watch goes on sale</label>
+      </fieldset>
+      <p class="muted">Add the sender to your contacts so my emails do not end up in Promotions.</p>
+      <button id="testEmail" class="ghost">Send me a test email</button>
+      <span id="testNote" class="muted"></span>
+    </section>
+    <section>
+      <h2>Privacy</h2>
+      <p class="muted">I only log product pages on the sites you watch, keep them for 30 days, and never share them.
+        During the pilot I also count simple usage, like when a card shows and which button you press, to see what works.</p>
+      <button id="clearHistory" class="ghost">Clear my browsing history</button>
+    </section>
+    <div class="actions">
+      <button id="save" class="main">Save settings</button>
+      <span id="saved" class="muted"></span>
+    </div>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

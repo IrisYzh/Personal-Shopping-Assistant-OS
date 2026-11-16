@@ -1,0 +1,6 @@
+[
+  {"id": "lululemon", "name": "Lululemon", "domains": ["shop.lululemon.com"], "aliases": ["lulu", "lululemon athletica"], "category": "Activewear"},
+  {"id": "skims", "name": "SKIMS", "domains": ["skims.com", "www.skims.com"], "aliases": ["skim"], "category": "Shapewear and basics"},
+  {"id": "nordstrom", "name": "Nordstrom", "domains": ["nordstrom.com", "www.nordstrom.com"], "aliases": ["nordstrom rack"], "category": "Department store"},
+  {"id": "sephora", "name": "Sephora", "domains": ["sephora.com", "www.sephora.com"], "aliases": [], "category": "Beauty"}
+]

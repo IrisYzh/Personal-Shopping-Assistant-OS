@@ -1,0 +1,14 @@
+.env
+.git
+data
+extension
+dist
+docs
+assets
+eval_results
+examples
+projects
+context
+crons
+tests
+**/__pycache__

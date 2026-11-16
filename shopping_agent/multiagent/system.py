@@ -26,7 +26,7 @@ from ..ports import ShoppingRepository
 from ..storage import JsonRepository
 from .agents import ProductIntelligenceAgent, ShoppingSupervisorAgent, VerifierAgent
 from .product_tools import parse_jsonld
-from .provider import ArkResponsesProvider, ModelProvider
+from .provider import ModelProvider, default_models, make_provider
 from .runtime import AgentRunner
 from .types import EvidenceBoard, ProductPageSnapshot
 
@@ -75,19 +75,20 @@ class MultiAgentShoppingSystem:
         verifier_model: str | None = None,
     ):
         self.repository = repository or JsonRepository()
-        self.provider = provider or ArkResponsesProvider()
+        self.provider = provider or make_provider()
         self.runner = AgentRunner(self.provider)
+        models = default_models()
         self.product_agent = ProductIntelligenceAgent(
             self.runner,
-            product_model or os.getenv("DOUBAO_PRODUCT_MODEL", "doubao-seed-2-0-lite-260215"),
+            product_model or models["product"],
         )
         self.verifier = VerifierAgent(
             self.runner,
-            verifier_model or os.getenv("DOUBAO_VERIFIER_MODEL", "doubao-seed-2-0-pro-260215"),
+            verifier_model or models["verifier"],
         )
         self.supervisor = ShoppingSupervisorAgent(
             self.runner,
-            supervisor_model or os.getenv("DOUBAO_SUPERVISOR_MODEL", "doubao-seed-2-0-lite-260215"),
+            supervisor_model or models["supervisor"],
             self.product_agent,
             self.verifier,
             self.repository,
@@ -291,6 +292,7 @@ class MultiAgentShoppingSystem:
                 currency=item.currency,
                 availability=item.last_availability,
                 confidence=item.product_confidence,
+                promotion_text=item.last_promotion,
             ),
             snapshot=snapshot,
             previous_state={
@@ -312,6 +314,7 @@ class MultiAgentShoppingSystem:
             confidence=self._as_float(candidate.get("confidence")) or 0.0,
             source=source,
             checked_at=utc_now(),
+            promotion_text=candidate.get("promotion_text"),
             evidence=[str(value) for value in candidate.get("evidence", [])],
         )
         preliminary, _ = self.trigger_engine.evaluate(item, observation)
@@ -360,6 +363,20 @@ class MultiAgentShoppingSystem:
     def confirm(self, pending_id: str, approved: bool, **updates) -> OrchestrationResult:
         return self.confirmation_handler.confirm(pending_id, approved, **updates)
 
+    def record_behavior(self, event_type, product: ProductContext, *, session_id: str, occurred_at=None):
+        """Behavior-first entry point for a future content script."""
+        return to_primitive(
+            self.confirmation_handler.record_behavior(
+                event_type,
+                product,
+                session_id=session_id,
+                occurred_at=occurred_at,
+            )
+        )
+
+    def build_daily_interest_digest(self, *, now: str | None = None):
+        return to_primitive(self.confirmation_handler.build_daily_interest_digest(now=now))
+
     def _commit_item(self, intent: IntentDecision, product: ProductContext) -> tuple[WishlistItem, bool]:
         existing = self.repository.find_item_by_url(product.url or "")
         if existing:
@@ -377,6 +394,7 @@ class MultiAgentShoppingSystem:
             product_confidence=product.confidence,
             policy=self.policy_engine.build(intent, product),
             created_at=utc_now(),
+            last_promotion=product.promotion_text,
         )
         self.repository.save_item(item)
         return item, True
@@ -398,6 +416,7 @@ class MultiAgentShoppingSystem:
                 currency=parsed.get("currency", "CNY"),
                 availability=self._availability(parsed.get("availability")),
                 confidence=0.98,
+                promotion_text=parsed.get("promotion_text"),
             )
         fallback = self.confirmation_handler.handle_expression(expression, resolved)
         self.repository.append_audit(
@@ -453,6 +472,7 @@ class MultiAgentShoppingSystem:
                 raw.get("availability", fallback.availability.value)
             ),
             confidence=MultiAgentShoppingSystem._as_float(raw.get("confidence")) or fallback.confidence,
+            promotion_text=raw.get("promotion_text", fallback.promotion_text),
         )
 
     @staticmethod

@@ -1,0 +1,34 @@
+# Render blueprint for the pilot backend. In Render: New > Blueprint > pick this repo.
+# Secrets marked sync: false are typed in by you in the Render dashboard, never committed.
+services:
+  - type: web
+    name: shopping-assistant-pilot
+    runtime: docker
+    plan: starter          # A persistent disk needs a paid plan. The free plan loses data on restart.
+    region: oregon
+    healthCheckPath: /health
+    disk:
+      name: pilot-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: PILOT_TIMEZONE
+        value: America/Los_Angeles
+      - key: PILOT_KEYS          # name:key pairs, one per friend. Keys need 12+ characters.
+        sync: false
+      - key: TRACKING_SECRET     # Any long random string. Signs the email links.
+        generateValue: true
+      - key: ADMIN_KEY           # Your key for /metrics.
+        generateValue: true
+      - key: PUBLIC_URL          # This service's URL, like https://shopping-assistant-pilot.onrender.com
+        sync: false
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: EMAIL_FROM_NAME
+        value: Shopping Assistant
+      - key: SHEETS_WEBHOOK_URL  # Optional: mirror every wishlist to a Google Sheet.
+        sync: false
+      - key: ANTHROPIC_API_KEY   # Optional: only for the Claude agent commands.
+        sync: false

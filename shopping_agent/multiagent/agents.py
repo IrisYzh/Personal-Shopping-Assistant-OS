@@ -23,6 +23,7 @@ PRODUCT_OUTPUT_SCHEMA = {
         "price": NULLABLE_NUMBER,
         "currency": {"type": "string"},
         "availability": {"type": "string", "enum": ["in_stock", "out_of_stock", "unknown"]},
+        "promotion_text": NULLABLE_STRING,
         "confidence": {"type": "number"},
         "extraction_method": {"type": "string"},
         "evidence": STRING_ARRAY,
@@ -93,6 +94,7 @@ Return JSON only with this shape:
 {
   "name": string|null, "url": string|null, "price": number|null,
   "currency": string, "availability": "in_stock"|"out_of_stock"|"unknown",
+  "promotion_text": string|null,
   "confidence": number, "extraction_method": "jsonld"|"meta"|"model"|"unknown",
   "evidence": [string], "uncertainties": [string]
 }
@@ -161,6 +163,7 @@ Return JSON only with this shape:
                     "price": parsed.get("price"),
                     "currency": parsed.get("currency", "CNY"),
                     "availability": parsed.get("availability", "unknown"),
+                    "promotion_text": parsed.get("promotion_text"),
                     "confidence": 0.98,
                     "extraction_method": "jsonld",
                     "evidence": parsed.get("evidence", []),
@@ -326,6 +329,7 @@ Return JSON only:
              "notify_restock": boolean, "evidence": [string]},
   "product": {"name": string|null, "url": string|null, "price": number|null,
               "currency": string, "availability": string, "confidence": number,
+              "promotion_text": string|null,
               "extraction_method": string, "evidence": [string]},
   "recommended_route": "auto_save"|"ask_confirmation"|"ignore",
   "question": string|null,

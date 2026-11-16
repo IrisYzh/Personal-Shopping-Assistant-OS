@@ -21,6 +21,25 @@ class MultiAgentSystemTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_behavior_event_entry_does_not_spend_llm_tokens_per_page_view(self):
+        provider = ScriptedProvider({})
+        system = MultiAgentShoppingSystem(provider=provider, repository=self.repository)
+        product = ProductContext(
+            name="复古跑鞋",
+            url="https://shop.example.com/retro-runner",
+            current_price=629,
+            availability=Availability.IN_STOCK,
+            confidence=0.95,
+        )
+        result = system.record_behavior(
+            "view",
+            product,
+            session_id="session-a",
+            occurred_at="2026-09-01T10:00:00+00:00",
+        )
+        self.assertEqual(result["route"], "ignore")
+        self.assertEqual(provider.requests, [])
+
     def test_three_agents_delegate_verify_and_commit_once(self):
         provider = build_demo_provider()
         system = MultiAgentShoppingSystem(provider=provider, repository=self.repository)

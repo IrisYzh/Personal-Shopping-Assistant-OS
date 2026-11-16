@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping Assistant UI preview</title>
+  <!--
+    Double-click this file to open it in a browser. It uses the real UI files:
+      card-ui.js        the in-page card (look and wording)
+      popup.html/css/js the wishlist and settings popup (sample data in preview mode)
+      preview-emails.js sample emails from shopping_agent/digest.py
+                        (run `python -m shopping_agent preview-emails` after editing digest.py)
+    Edit any of them, then refresh this page.
+  -->
+  <style>
+    :root {
+      --bg: #f4f3f0; --panel: #ffffff; --fg: #1f1f1f; --muted: #6b6b6b; --line: #e3e1dc;
+      --shop: #fafafa; --shop-img: linear-gradient(160deg, #2b2b2b, #5a5a5a); --cta: #d22030;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #141414; --panel: #1d1d1d; --fg: #f1f1f1; --muted: #a3a3a3; --line: #333; --shop: #202020; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg);
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .page { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+    h1 { font-size: 24px; margin: 0 0 6px; }
+    .lede { color: var(--muted); margin: 0 0 32px; max-width: 760px; }
+    h2 { font-size: 17px; margin: 40px 0 4px; }
+    .note { color: var(--muted); margin: 0 0 16px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+    .frame { display: flex; flex-direction: column; gap: 8px; }
+    .label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+    /* Fake product page behind the card, so it is seen in context. */
+    .shop { position: relative; width: 560px; max-width: 100%; height: 400px; background: var(--shop);
+      border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .shop .bar { height: 40px; border-bottom: 1px solid var(--line); padding: 0 16px; display: flex;
+      align-items: center; font-weight: 700; letter-spacing: .08em; font-size: 12px; }
+    .shop .body { display: flex; gap: 16px; padding: 16px; }
+    .shop .img { width: 180px; height: 230px; border-radius: 6px; background: var(--shop-img); flex: none; }
+    .shop .title { font-weight: 700; font-size: 16px; }
+    .shop .cta { margin-top: 12px; width: 160px; height: 34px; background: var(--cta); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 13px; border-radius: 2px; }
+    .shop .slot { position: absolute; right: 12px; bottom: 12px; }
+
+    iframe { width: 360px; height: 480px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+
+    .mail { width: 540px; max-width: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .mail .head { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+    .mail .from { color: var(--muted); font-size: 12.5px; }
+    .mail .subject { font-weight: 600; margin-top: 2px; }
+    .mail iframe.html { display: block; width: 100%; height: 300px; border: 0; border-radius: 0; background: #fff; }
+    .mail details { border-top: 1px solid var(--line); padding: 8px 16px; color: var(--muted); font-size: 13px; }
+    .mail summary { cursor: pointer; }
+    .mail pre { margin: 0; padding: 12px 0 4px; white-space: pre-wrap; word-break: break-word;
+      font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .missing { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Shopping Assistant UI preview</h1>
+    <p class="lede">Every screen the extension shows, built from the real UI files in this folder.
+      Edit a file, then refresh this page. The popup frames follow your system light or dark mode.</p>
+
+    <h2>1. In-page card</h2>
+    <p class="note">Shows in the page corner on the 3rd view in 7 days. Edit <code>card-ui.js</code>.</p>
+    <div class="grid" id="cards"></div>
+
+    <h2>2. Extension popup</h2>
+    <p class="note">Opens from the toolbar icon. Edit <code>popup.html</code>, <code>popup.css</code> and <code>popup.js</code>.
+      The wishlist uses sample data here.</p>
+    <div class="grid">
+      <div class="frame"><span class="label">Wishlist</span><iframe src="popup.html?state=wishlist" title="Wishlist"></iframe></div>
+      <div class="frame"><span class="label">Editing size and color</span><iframe src="popup.html?state=editing" title="Editing"></iframe></div>
+      <div class="frame"><span class="label">Empty wishlist</span><iframe src="popup.html?state=empty" title="Empty wishlist"></iframe></div>
+      <div class="frame"><span class="label">Backend not reachable</span><iframe src="popup.html?state=error" title="Error"></iframe></div>
+      <div class="frame"><span class="label">Settings</span><iframe src="popup.html?state=settings" title="Settings" style="height:820px"></iframe></div>
+      <div class="frame"><span class="label">Adding a site: typed "Lulu"</span><iframe src="popup.html?state=search:Lulu" title="Site search"></iframe></div>
+      <div class="frame"><span class="label">Adding a site: no match</span><iframe src="popup.html?state=search:Zara" title="Site search, no match"></iframe></div>
+    </div>
+
+    <h2>3. Emails</h2>
+    <p class="note">Simple HTML with the changes in color and bold, plus a plain text version. No images or banners, so they still read like a personal note and are less likely to land in Promotions.
+      Edit <code>shopping_agent/digest.py</code>, then run <code>python -m shopping_agent preview-emails</code> and refresh.</p>
+    <div class="grid" id="emails"></div>
+  </div>
+
+  <script src="card-ui.js"></script>
+  <script src="preview-emails.js"></script>
+  <script>
+    const prompt = { product_name: 'Align High-Rise Pant 25"', view_count: 3, window_days: 7 };
+    const states = [
+      { label: "Asking", fill: false, saved: false },
+      { label: "Size and color filled in", fill: true, saved: false },
+      { label: "After Add to wishlist", fill: false, saved: true },
+    ];
+    const cards = document.getElementById("cards");
+    states.forEach((state) => {
+      const frame = document.createElement("div");
+      frame.className = "frame";
+      frame.innerHTML = `<span class="label"></span>
+        <div class="shop"><div class="bar">DEMO STORE</div><div class="body"><div class="img"></div>
+        <div><div class="title">Align High-Rise Pant 25"</div><div>$98 USD</div><div class="cta">Add to Bag</div></div></div>
+        <div class="slot"></div></div>`;
+      frame.querySelector(".label").textContent = state.label;
+      const shadow = frame.querySelector(".slot").attachShadow({ mode: "open" });
+      ShoppingCard.render(shadow, prompt);
+      if (state.fill) {
+        shadow.querySelector('input[name="size"]').value = "6";
+        shadow.querySelector('input[name="color"]').value = "Black";
+      }
+      if (state.saved) ShoppingCard.markSaved(shadow);
+      cards.appendChild(frame);
+    });
+
+    const emails = document.getElementById("emails");
+    (window.PREVIEW_EMAILS || []).forEach((email) => {
+      const frame = document.createElement("div");
+      frame.className = "frame";
+      frame.innerHTML = `<span class="label"></span><div class="mail"><div class="head">
+        <div class="from">From: Shopping Assistant</div><div class="subject"></div></div>
+        <iframe class="html" title="Email"></iframe>
+        <details><summary>Plain text version</summary><pre></pre></details></div>`;
+      frame.querySelector(".label").textContent = email.kind;
+      frame.querySelector(".subject").textContent = email.subject;
+      frame.querySelector("pre").textContent = email.body;
+      const view = frame.querySelector("iframe.html");
+      view.srcdoc = email.html || `<pre style="font:14px sans-serif;white-space:pre-wrap">${email.body.replace(/</g, "&lt;")}</pre>`;
+      view.addEventListener("load", () => (view.style.height = view.contentDocument.body.scrollHeight + 8 + "px"));
+      emails.appendChild(frame);
+    });
+    if (!window.PREVIEW_EMAILS) {
+      emails.innerHTML = '<p class="missing">preview-emails.js is missing. Run python -m shopping_agent preview-emails.</p>';
+    }
+  </script>
+</body>
+</html>

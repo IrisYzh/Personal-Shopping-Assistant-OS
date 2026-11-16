@@ -8,6 +8,8 @@ from typing import Any
 
 from .models import (
     Availability,
+    BehaviorEvent,
+    BehaviorEventType,
     IntentDecision,
     IntentKind,
     MonitoringPolicy,
@@ -27,7 +29,11 @@ class JsonRepository:
         "pending_confirmations": {},
         "observations": [],
         "alerts": [],
+        "behavior_events": [],
+        "daily_digest_log": [],
+        "prompt_log": [],
         "audit_log": [],
+        "email_log": [],
     }
 
     def __init__(self, path: str | Path = "data/agent_state.json"):
@@ -36,7 +42,10 @@ class JsonRepository:
     def _load(self) -> dict[str, Any]:
         if not self.path.exists():
             return {key: value.copy() for key, value in self.EMPTY_STATE.items()}
-        return json.loads(self.path.read_text(encoding="utf-8"))
+        state = json.loads(self.path.read_text(encoding="utf-8"))
+        for key, empty_value in self.EMPTY_STATE.items():
+            state.setdefault(key, empty_value.copy())
+        return state
 
     def _save(self, state: dict[str, Any]) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -64,6 +73,13 @@ class JsonRepository:
             if raw["url"] == url:
                 return self._decode_item(raw)
         return None
+
+    def delete_item(self, item_id: str) -> bool:
+        state = self._load()
+        removed = state["items"].pop(item_id, None) is not None
+        if removed:
+            self._save(state)
+        return removed
 
     def list_items(self) -> list[WishlistItem]:
         return [self._decode_item(raw) for raw in self._load()["items"].values()]
@@ -95,6 +111,82 @@ class JsonRepository:
         state["alerts"].append(to_primitive(record))
         self._save(state)
 
+    def append_behavior_event(self, event: BehaviorEvent) -> None:
+        state = self._load()
+        state["behavior_events"].append(to_primitive(event))
+        self._save(state)
+
+    def list_behavior_events(self, product_url: str | None = None) -> list[BehaviorEvent]:
+        events = [self._decode_behavior_event(raw) for raw in self._load()["behavior_events"]]
+        if product_url is None:
+            return events
+        return [event for event in events if event.product.url == product_url]
+
+    def get_preferences(self) -> dict[str, Any]:
+        return dict(self._load().get("preferences", {}))
+
+    def set_preferences(self, values: dict[str, Any]) -> dict[str, Any]:
+        state = self._load()
+        state.setdefault("preferences", {}).update(values)
+        self._save(state)
+        return dict(state["preferences"])
+
+    def clear_behavior_events(self) -> int:
+        """Delete all browsing history. Used by the privacy setting in the extension."""
+        state = self._load()
+        removed = len(state["behavior_events"])
+        state["behavior_events"] = []
+        self._save(state)
+        return removed
+
+    def prune_behavior_events(self, before: str) -> int:
+        """Drop browsing events older than an ISO timestamp (30 day retention)."""
+        from .behavior_intent import parse_time
+
+        cutoff = parse_time(before)
+        state = self._load()
+        kept = [raw for raw in state["behavior_events"] if parse_time(str(raw["occurred_at"])) >= cutoff]
+        removed = len(state["behavior_events"]) - len(kept)
+        if removed:
+            state["behavior_events"] = kept
+            self._save(state)
+        return removed
+
+    def append_daily_digest_record(self, record: dict[str, Any]) -> None:
+        state = self._load()
+        state["daily_digest_log"].append(to_primitive(record))
+        self._save(state)
+
+    def was_daily_digest_prompted(self, product_url: str, digest_date: str) -> bool:
+        return any(
+            record.get("product_url") == product_url and record.get("digest_date") == digest_date
+            for record in self._load()["daily_digest_log"]
+        )
+
+    def append_prompt_record(self, record: dict[str, Any]) -> None:
+        state = self._load()
+        state["prompt_log"].append(to_primitive(record))
+        self._save(state)
+
+    def was_prompted(self, product_url: str) -> bool:
+        return any(record.get("product_url") == product_url for record in self._load()["prompt_log"])
+
+    def prompt_count_on(self, prompt_date: str) -> int:
+        return sum(1 for record in self._load()["prompt_log"] if record.get("prompt_date") == prompt_date)
+
+    def append_email_record(self, record: dict[str, Any]) -> None:
+        """One row per email sent: {email_id, kind, alert_ids, sent_at}. Stops double sends."""
+        state = self._load()
+        state["email_log"].append(to_primitive(record))
+        self._save(state)
+
+    def emailed_alert_ids(self) -> set[str]:
+        return {alert_id for record in self._load()["email_log"] for alert_id in record.get("alert_ids", [])}
+
+    def last_email_at(self, kind: str) -> str | None:
+        times = [record["sent_at"] for record in self._load()["email_log"] if record.get("kind") == kind]
+        return max(times) if times else None
+
     def append_audit(self, record: dict[str, Any]) -> None:
         state = self._load()
         state["audit_log"].append(to_primitive(record))
@@ -119,6 +211,34 @@ class JsonRepository:
             policy=MonitoringPolicy(**raw["policy"]),
             created_at=raw["created_at"],
             consecutive_failures=raw.get("consecutive_failures", 0),
+            last_promotion=raw.get("last_promotion"),
+            size=raw.get("size"),
+            color=raw.get("color"),
+            added_via=raw.get("added_via", "behavior"),
+            status=raw.get("status", "watching"),
+            bought_at=raw.get("bought_at"),
+        )
+
+    @staticmethod
+    def _decode_product(raw: dict[str, Any]) -> ProductContext:
+        return ProductContext(
+            name=raw.get("name"),
+            url=raw.get("url"),
+            current_price=raw.get("current_price"),
+            currency=raw.get("currency", "CNY"),
+            availability=Availability(raw.get("availability", "unknown")),
+            confidence=raw.get("confidence", 0.0),
+            promotion_text=raw.get("promotion_text"),
+        )
+
+    @classmethod
+    def _decode_behavior_event(cls, raw: dict[str, Any]) -> BehaviorEvent:
+        return BehaviorEvent(
+            id=raw["id"],
+            event_type=BehaviorEventType(raw["event_type"]),
+            product=cls._decode_product(raw["product"]),
+            session_id=raw["session_id"],
+            occurred_at=raw["occurred_at"],
         )
 
     @staticmethod
@@ -128,14 +248,7 @@ class JsonRepository:
         return PendingConfirmation(
             id=raw["id"],
             expression=raw["expression"],
-            product=ProductContext(
-                name=product_raw.get("name"),
-                url=product_raw.get("url"),
-                current_price=product_raw.get("current_price"),
-                currency=product_raw.get("currency", "CNY"),
-                availability=Availability(product_raw.get("availability", "unknown")),
-                confidence=product_raw.get("confidence", 0.0),
-            ),
+            product=JsonRepository._decode_product(product_raw),
             decision=IntentDecision(
                 kind=IntentKind(decision_raw["kind"]),
                 confidence=decision_raw["confidence"],

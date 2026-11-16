@@ -17,7 +17,7 @@ from .monitor_agent import MonitorAgent
 from .orchestrator import ShoppingOrchestrator, utc_now
 from .storage import JsonRepository
 from .multiagent.product_tools import inspect_meta, parse_jsonld
-from .multiagent.provider import ArkResponsesProvider
+from .multiagent.provider import ModelProvider, default_models, make_provider
 from .multiagent.system import MultiAgentShoppingSystem
 from .multiagent.types import EvidenceBoard, ProductPageSnapshot
 
@@ -159,7 +159,7 @@ def snapshot_for(case: dict[str, Any]) -> ProductPageSnapshot:
     return ProductPageSnapshot(url=case["url"], title=case["name"], html=html, visible_text=visible)
 
 
-def runtime_stats(provider: ArkResponsesProvider) -> RuntimeStats:
+def runtime_stats(provider: ModelProvider) -> RuntimeStats:
     calls = []
     stats = RuntimeStats(model_responses=len(provider.telemetry))
     for event in provider.telemetry:
@@ -199,7 +199,7 @@ def safe_error(exc: Exception) -> str:
     return type(exc).__name__
 
 
-async def preflight(provider: ArkResponsesProvider, models: list[str]) -> dict[str, Any]:
+async def preflight(provider: ModelProvider, models: list[str]) -> dict[str, Any]:
     result = {}
     for model in dict.fromkeys(models):
         try:
@@ -348,7 +348,7 @@ def evaluate_guardrail_v2(baseline: dict[str, Any] | None = None) -> dict[str, A
 
 
 async def evaluate_agents(
-    provider: ArkResponsesProvider,
+    provider: ModelProvider,
     *,
     checkpoint_path: Path | None = None,
     concurrency: int = 4,
@@ -359,11 +359,7 @@ async def evaluate_agents(
     signature = json.dumps(
         {
             "version": 2,
-            "models": [
-                os.getenv("DOUBAO_SUPERVISOR_MODEL"),
-                os.getenv("DOUBAO_PRODUCT_MODEL"),
-                os.getenv("DOUBAO_VERIFIER_MODEL"),
-            ],
+            "models": sorted(default_models().items()),
             "counts": [len(INTENT_CASES), len(product_cases()), len(REMINDER_CASES), len(VERIFIER_CASES)],
         },
         sort_keys=True,
@@ -382,14 +378,9 @@ async def evaluate_agents(
     semaphore = asyncio.Semaphore(max(1, concurrency))
     rerun_suites = rerun_suites or set()
 
-    def case_provider() -> ArkResponsesProvider:
-        return ArkResponsesProvider(
-            api_key=provider.api_key,
-            base_url=provider.base_url,
-            timeout_seconds=provider.timeout_seconds,
-            store_responses=provider.store_responses,
-            max_retries=provider.max_retries,
-        )
+    def case_provider() -> ModelProvider:
+        # Each case gets its own provider so telemetry and conversations never mix.
+        return make_provider()
 
     async def intent_worker(case):
         async with semaphore:
@@ -764,7 +755,7 @@ def markdown_report(payload: dict[str, Any]) -> str:
                 "",
                 "## 当前阻塞",
                 "",
-                "Ark 密钥有效，但配置的模型返回 `ModelNotOpen`。请在火山方舟控制台开通对应模型，或把 `.env` 中三个模型变量改成已开通的推理接入点 ID，再重新运行评测。",
+                "配置的模型当前不可用。请检查 `.env` 里的 API key 和三个模型变量，再重新运行评测。",
             ]
         )
     return "\n".join(lines) + "\n"
@@ -787,12 +778,8 @@ async def run_evaluation(
     agent_status = "baseline_only"
 
     if not baseline_only:
-        provider = ArkResponsesProvider()
-        models = [
-            os.getenv("DOUBAO_SUPERVISOR_MODEL", "doubao-seed-2-0-lite-260215"),
-            os.getenv("DOUBAO_PRODUCT_MODEL", "doubao-seed-2-0-lite-260215"),
-            os.getenv("DOUBAO_VERIFIER_MODEL", "doubao-seed-2-0-pro-260215"),
-        ]
+        provider = make_provider()
+        models = list(default_models().values())
         model_access = await preflight(provider, models)
         if all(status == "available" for status in model_access.values()):
             agent_status = "available"

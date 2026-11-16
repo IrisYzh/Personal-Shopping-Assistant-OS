@@ -14,6 +14,10 @@ SCRIPT_PATTERN = re.compile(
 )
 META_PATTERN = re.compile(r"<meta\s+([^>]+)>", flags=re.IGNORECASE)
 ATTRIBUTE_PATTERN = re.compile(r"([:\w-]+)\s*=\s*[\"'](.*?)[\"']", flags=re.DOTALL)
+PROMOTION_PATTERN = re.compile(
+    r"(?:折|满\s*\d+\s*减|优惠|促销|活动|券|coupon|sale|\d+%\s*off)",
+    flags=re.IGNORECASE,
+)
 
 
 def _walk_products(value: Any):
@@ -60,6 +64,14 @@ def parse_jsonld(snapshot: ProductPageSnapshot) -> dict[str, Any]:
         price = float(raw_price) if raw_price is not None else None
     except (TypeError, ValueError):
         price = None
+    promotion_text = next(
+        (
+            value
+            for value in (offers.get("name"), offers.get("description"))
+            if isinstance(value, str) and PROMOTION_PATTERN.search(value)
+        ),
+        None,
+    )
     return {
         "found": True,
         "name": product.get("name"),
@@ -67,6 +79,7 @@ def parse_jsonld(snapshot: ProductPageSnapshot) -> dict[str, Any]:
         "price": price,
         "currency": offers.get("priceCurrency") or "CNY",
         "availability": stock,
+        "promotion_text": promotion_text,
         "image_url": image,
         "evidence": ["schema.org/Product", "schema.org/Product.offers"],
     }
@@ -91,6 +104,7 @@ def inspect_meta(snapshot: ProductPageSnapshot) -> dict[str, Any]:
         "price": price,
         "currency": values.get("product:price:currency") or "CNY",
         "image_url": values.get("og:image"),
+        "promotion_text": values.get("product:promotion"),
         "evidence": [key for key in values if key.startswith(("og:", "product:"))],
     }
 
